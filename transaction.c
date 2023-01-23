@@ -1,7 +1,2 @@
-struct transaction
-{
-    int t_chegada;
-    int id;
-    char op;
-    char atributo;
-};
+#include "transaction.h"
+
