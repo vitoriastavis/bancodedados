@@ -2,16 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include "includes/utils.h"
-#include "includes/transaction.h"
-
-#define MAX_LEN 5
-#define MAX_T 10
 
 int main(int argc, char ** argv)
 {
-    char *filename_out = argv[1];
+    char *filename_out = argv[2];
     FILE *file_out;
-    transaction *t = NULL;
+    transacao *t = NULL;
 
     file_out = fopen(filename_out, "w");
 
@@ -21,7 +17,8 @@ int main(int argc, char ** argv)
         exit(0);
     }
 
-    t = read_transactions();
+    printf("vou dar read transacao %s \n", filename_out);
+    t = read_transacoes(argv[1]);
 
     fclose(file_out);
     return 0;
