@@ -1,17 +1,10 @@
-// Agenda com todas as transacoes
-typedef struct agendamento
-{   
-    int tamanho;
-    transacao *inicio;
-} agendamento;
-
 typedef struct transacao
 {
     int t_chegada;
     int id;
     char op;
     char atributo;
-    transacao *prox;
+    struct transacao *prox;
 } transacao;
 
 // Guarda se transacao foi commitada ou nao
@@ -20,3 +13,9 @@ typedef struct idtransacao {
 	short int isCommited;					
 } idtransacao;
 
+// Agenda com todas as transacoes
+typedef struct agendamento
+{   
+    int tamanho;
+    struct transacao *inicio;
+} agendamento;

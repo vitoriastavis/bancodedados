@@ -6,79 +6,41 @@
 #define MAX_TRANS 10
 #define MAX_LENGTH 10
 
-transacao* read_transacoes(char *filename_in)
+void ler_transacoes()
 {
-    schedule S = malloc(sizeof(schedule));
-    transacao *tran = malloc(MAX_TRANS*sizeof(transacao));
-
-    int time;
-    int id;
-    char op, attribute;
+    transacao *tran = malloc(2 * sizeof(transacao));
+    int tempo, id;
+    char op[10];
+    char atributo[10];
     int commits = 0;
-    int n_transacoes = 0;
+    int id_transacao = 0;
 
-    char line[MAX_LENGTH] = {0};
-    unsigned int line_count = 0;
+    #ifdef DEBUG
+        printf("Vou ler a entrada padrao\n");
+    #endif
 
-    FILE *fp;      
-    fp = fopen(filename_in, "r");  
-
-    printf("vou entrar no while \n");
-
-    if(fp == NULL) {
-        perror("Error in opening file");
-        return NULL;
-    }
-
-    while (!feof(fp) || commits == n_transacoes)
+    while (!feof(stdin))
     {
-        fgets(line, MAX_LENGTH, fp);       
-        //printf("line[%02d]: %s", ++line_count, line);   
+        fscanf(stdin, "%d", &tempo);
 
-        time = atoi(&line[0]);
-        id = atoi(&line[2]);
-        op = line[4];
-        attribute = line[6];
+        if (tempo == -1)
+            break;
 
-        //printf("%d %d %c %c \n", time, id, op, attribute);
+        fscanf(stdin, "%d", &id);
+        fscanf(stdin, "%s", op);
+        fscanf(stdin, "%s", atributo);
 
-        if(op == 'C')
-            commits++;
-        
-        tran->t_chegada = time;
-        tran->id = id;
-        tran->op = op;
-        tran->atributo = attribute;
-        tran->
-
-        schedule[n_transacoes] = tran;
-
-        if (id > n_transacoes)
-            n_transacoes++;
-
-        printf("%d %d %c %c \n", tran->t_chegada, tran->id, tran->op, tran->atributo);
-    }
-    /*
-    while (!feof(fp))
-    {
-        fscanf(fp, "%d %d %c %c", time, id, op, attribute);
-        printf("%d %d %c %c \n", &time, id, &op, &attribute);
-        
         if(op == 'C'){
             commits++;
         }else{
-            tran->t_chegada = time;
+            tran->t_chegada = tempo;
             tran->id = id;
             tran->op = op;
-            tran->atributo = attribute;
+            tran->atributo = atributo;
 
-            n_transacoes++;
+            id_transacao++;
         }
-        //printf("%d %d %s %s\n", time, id, &op, &attribute);
+        printf("%d %d %s %s\n", tempo, id, op, atributo);
     }
-    */
-    fclose(fp);
     return tran;
-
 }
-
