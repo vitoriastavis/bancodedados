@@ -11,20 +11,20 @@
 
 int main(int argc, char ** argv)
 {
-    char *filename_out = argv[1];
-    FILE *file_out;
-    transaction *t = NULL;
+    char *arquivo = argv[1];
+    FILE *arquivo_saida;
+    // transaction *t = NULL;
 
-    file_out = fopen(filename_out, "w");
+    arquivo_saida = fopen(arquivo, "w");
 
-    if (!file_out)
-    {
-        fprintf(stderr, "Erro na abertura do arquivo de saída.");
-        exit(0);
-    }
+    // if (!arquivo_saida)
+    // {
+    //     fprintf(stderr, "Erro na abertura do arquivo de saída.");
+    //     exit(0);
+    // }
 
-    t = read_transactions();
+    ler_transacoes();
 
-    fclose(file_out);
+    // fclose(arquivo_saida);
     return 0;
 }

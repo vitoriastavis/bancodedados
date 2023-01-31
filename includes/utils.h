@@ -3,6 +3,6 @@
 
 #include <stdlib.h>
 
-transaction* read_transactions();
+void ler_transacoes();
 
 #endif // __UTILS_H__

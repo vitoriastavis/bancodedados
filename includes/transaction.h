@@ -1,22 +1,22 @@
-typedef struct transaction
+typedef struct Transacao
 {
     int t_chegada;
     int id;
-    char op;
-    char atributo;
-} transaction;
+    char *op;
+    char *atributo;
+} Transacao;
 
 // Guarda se transacao foi commitada ou nao
-typedef struct idTransaction {	
+typedef struct idTransacao {	
 	int id;								
-	short int isCommited;					
-} idTransaction;
+	short int foi_comitado;					
+} idTransacao;
 
 // Agenda com todas as transacoes
-typedef struct scheduling
+typedef struct Agenda
 {
     int id;
-    int size;
-    transaction *idTransaction;
-}scheduling;
+    int tam;
+    Transacao *idTransacao;
+}Agenda;
 
