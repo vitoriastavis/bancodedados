@@ -3,27 +3,47 @@
 #include <stddef.h>
 #include "../includes/agendamento.h"
 
-
-/* Cria uma agendamento vazia */
-int cria_agendamento(agendamento * S){
-    S->inicio = NULL;
-    S->tamanho = 0;   
+/* Cria um agendamento vazio */
+int cria_transacao(transacao *t){
+    t->t_chegada = 0;
+    t->id = 0;
+    t->operacao = "";
+    t->atributo = "";
+    t->prox = NULL;
+ 
     return 1;
 }
 
-/* Retorna 1 se a agendamento está vazia e zero caso contrário; */
+int imprime_transacao(transacao *t){
+    #ifdef DEBUG
+            printf("\nImprimir t\n");        
+    #endif
+    printf("%d %d %c %c\n", t->t_chegada, t->id, t->operacao, t->atributo);
+
+    return 1;
+}
+
+/* Cria um agendamento vazio */
+int cria_agendamento(agendamento *S){
+    S->inicio = NULL;
+    S->tamanho = 0;   
+
+    return 1;
+}
+
+/* Retorna 1 se a agendamento está vazio e zero caso contrário; */
 int agendamento_vazio(agendamento *S){
     if ((S->inicio == NULL) && (S->tamanho == 0))
         return 1;
     return 0;
 }
 
-/* Remove todos os elementos da agendamento e aponta ela para NULL */
+/* Remove todos os elementos doagendamento e aponta ela para NULL */
 void destroi_agendamento(agendamento *S){
     transacao *aux;
  
-    if(agendamento_vazio(l)){
-        printf("não destruida: agendamento vazia\n");
+    if(agendamento_vazio(S)){
+        printf("não destruida: agendamento vazio\n");
     }
 
     while (S->inicio != NULL){
@@ -34,98 +54,65 @@ void destroi_agendamento(agendamento *S){
     }        
 }
 
-/* Insere o x no inı́cio da lista;
+/* Insere a transacao no fim do agendamento;
    Retorna 1 se a operação foi bem sucedida e zero caso contrario */
-int insere_inicio_lista(int x, agendamento *S){
+int insere_agendamento(transacao *t_nova, agendamento *S){ 
     transacao *aux;
-    transacao *novo;  
-    
-    /* faz malloc e testa */
-    novo = malloc(sizeof(transacao));
-    if (novo == NULL){
-        printf("Erro na alocação da memória");
-        exit(0);
-    }
 
-    /* monta o novo nodo */
-    aux = S->inicio;
-    novo->dado = x;
-    novo->prox = aux;
-    S->inicio = novo;
-    S->tamanho++;    
-    return 1;
-}
+    if(!S || !t_nova)
+        return 0;
 
-/* Insere o elemento x no final da lista; 
-   Retorna 1 se a operação foi bem sucedida e zero caso contrário */
-int insere_fim_lista(int x, agendamento *S){ 
-    transacao *novo;
-    transacao *posicao;    
+    if(agendamento_vazio(S))
+        S->inicio = t_nova;
+    else{
+        aux = S->inicio;
 
-    /* faz malloc e o testa */
-    novo = malloc(sizeof(transacao));
-    if (novo == NULL){
-        printf("Erro na alocação da memória");
-        exit(0);
-    }  
-
-    if (lista_vazia(l)){
-        insere_inicio_lista(x, l);
-        free(novo); 
-        return 1;
-    }
-
-    /* monta o novo nodo */
-    novo->dado = x;
-    novo->prox = NULL;
-
-    posicao = S->inicio; 
-   
-    /* vai até a penúltima posição */
-    while (posicao->prox != NULL){
-        posicao = posicao->prox;
+        while(aux->prox != NULL)
+            aux = aux->prox;
+        
+        aux->prox = t_nova;
     } 
-    
-    /* adiciona o nodo */
-    posicao->prox = novo;
 
     S->tamanho++; 
 
-    return 1;  
+    return 1;    
 }
 
-/* Insere x na lista de maneira que ela fique em ordem crescente
+
+/* Insere x na agendamento de maneira que ela fique em ordem crescente
    Retorna 1 se a operação foi bem sucedida e zero caso contrário 
    
-    ******** AJUSTAR PARA ORDERNAR POR ID DA TRANSACAO ************
+    ******** AJUSTAR PARA ORDERNAR POR ID doTRANSACAO ************
 
-   */
-int insere_ordenado_lista(int x, agendamento *S){
+  
+
+   
+int insere_ordenado_agendamento(int x, agendamento *S){
     transacao *novo;
     transacao *posicao;   
 
-    /* faz malloc e o testa */
+    // faz malloc e o testa 
     novo = malloc(sizeof(transacao));
     if (novo == NULL){
-        printf("Erro na alocação da memória");
+        printf("Erro na alocação domemória");
         exit(0);
     }  
 
-    if (lista_vazia(l)){
-        insere_inicio_lista(x, l); 
+    if (agendamento_vazio(l)){
+        insere_inicio_agendamento(x, l); 
         free(novo);
         return 1;
     }    
 
-    /* monta o novo nodo */
+    // monta o novo nodo 
     novo->dado = x;
     novo->prox = NULL;
 
-    /* vai até a posição */
+    // vai até a posição 
     posicao = S->inicio;
 
     if (posicao->dado-> x){
-        insere_inicio_lista(x, l);
+        insere_inicio_agendamento(x, l);
         free(novo); 
         return 1;
     }
@@ -134,7 +121,7 @@ int insere_ordenado_lista(int x, agendamento *S){
         posicao = posicao->prox;
     }
 
-    /* adiciona o nodo */
+    // adiciona o nodo 
     novo->prox = posicao->prox;
     posicao->prox = novo;
 
@@ -143,36 +130,40 @@ int insere_ordenado_lista(int x, agendamento *S){
     return 1;  
 }
 
-/* Imprime os elementos da lista, do inı́cio ao final.
-   Se ela for vazia não imprime nada*/
-void imprime_lista(agendamento *S){
+ */
+
+/* Imprime os elementos doagendamento, do inı́cio ao final.
+   Se ela for vazio não imprime nada*/
+void imprime_agendamento(agendamento *S){
     transacao *posicao;   
 
-    if (lista_vazia(l)){ 
+    if (agendamento_vazio(S)){ 
         return;
     }
 
     posicao = S->inicio;  
-    printf("tam: %d -> ", S->tamanho);   
-    printf("%d ", posicao->dado);
+
+    printf("tam: %d \n", S->tamanho);   
+    imprime_transacao(posicao);
+
     while (posicao->prox != NULL){        
-       posicao = posicao->prox; 
-       printf("%d ", posicao->dado);                   
+        posicao = posicao->prox; 
+        imprime_transacao(posicao); 
     }
     printf("\n");
 }
 
-/* Remove o 1o elemento da lista e o retorna em *item;
-   Retorna 1 se a operação foi bem sucedida e zero caso contrário */
-int remove_primeiro_lista(int *item, agendamento *S){    
+/* Remove o 1o elemento doagendamento e o retorna em *item;
+   Retorna 1 se a operação foi bem sucedida e zero caso contrário 
+int remove_primeiro_agendamento(int *item, agendamento *S){    
     transacao * aux;
     
-    if (lista_vazia(l))
+    if (agendamento_vazio(l))
         return 0;    
 
     aux = S->inicio;
     *item = aux->dado;
-    S->inicio = S->inicio->prox; /* tira o primeiro dado */
+    S->inicio = S->inicio->prox; // tira o primeiro dado
     free(aux);
     S->tamanho--;        
     
@@ -180,32 +171,33 @@ int remove_primeiro_lista(int *item, agendamento *S){
         return 0;
     return 1;          
 }   
+*/
 
-/* Remove o último elemento da lista e o retorna;
-   Retorna 1 se a operação foi bem sucedida e zero caso contrário */
-int remove_ultimo_lista(int *item, agendamento *S){
+/* Remove o último elemento doagendamento e o retorna;
+   Retorna 1 se a operação foi bem sucedida e zero caso contrário 
+int remove_ultimo_agendamento(int *item, agendamento *S){
     transacao *aux;
     transacao *remover;
     int i;
 
-    if (lista_vazia(l))
+    if (agendamento_vazio(l))
         return 0;
 
     aux = S->inicio;
 
     if (S->tamanho == 1){
-        remove_primeiro_lista(item, l); 
+        remove_primeiro_agendamento(item, l); 
         return 1;
     }
 
-    /* anda ate a penúltima posição */
+    // anda ate a penúltima posição 
     for (i = 1; i < S->tamanho-1; i++){
         aux = aux->prox;
     }    
 
     *item = aux->prox->dado;
     remover = aux->prox;
-    aux->prox = NULL; /* tira o ultimo dado */
+    aux->prox = NULL; // tira o ultimo dado 
     free(remover);    
     S->tamanho--;
 
@@ -213,41 +205,42 @@ int remove_ultimo_lista(int *item, agendamento *S){
         return 0;
     return 1; 
 }
+*/
 
-/* Se o elemento chave existir na lista, o retorna em *item;
-   Retorna 1 se a operação foi bem sucedida e zero caso contrário */
-int remove_item_lista(int chave, int * item, agendamento *S){
+/* Se o elemento chave existir na agendamento, o retorna em *item;
+   Retorna 1 se a operação foi bem sucedida e zero caso contrário 
+int remove_item_agendamento(int chave, int * item, agendamento *S){
     transacao * aux;
     transacao * remover;       
 
-    if (lista_vazia(l)){
-        printf("lista vazia");
+    if (agendamento_vazio(l)){
+        printf("agendamento vazio");
         return 0;       
     }
-    if (!pertence_lista(chave, l)){
+    if (!pertence_agendamento(chave, l)){
         printf("Nao removido: elemento nao encontrado.\n");       
         return 0;
     }
 
     aux = S->inicio;   
     if (aux->dado == chave){       
-        remove_primeiro_lista(item, l);
+        remove_primeiro_agendamento(item, l);
         return 1;
     }
     else{
-        /*procura a posição anterior à da chave */
+        // procura a posição anterior à da chave
         while (aux->prox != NULL){
             aux = aux->prox;              
             if (aux->dado == chave){
                 *item = aux->prox->dado;
                 remover = aux->prox;   
-                aux->prox = aux->prox->prox; /* tira o dado */
+                aux->prox = aux->prox->prox; // tira o dado
                 S->tamanho--;
                 free(remover);     
                 return 1;
             }
             if ((aux->prox->dado == chave) && (aux->prox->prox == NULL)){
-                remove_ultimo_lista(item, l);                
+                remove_ultimo_agendamento(item, l);                
                 return 1;
             }                
         }            
@@ -255,8 +248,10 @@ int remove_item_lista(int chave, int * item, agendamento *S){
     return 1;          
 }
 
-/* Retorna 1 se a chave existe na lista, caso contrário retorna zero */
-int pertence_lista(int chave, agendamento *S){
+*/
+
+/* Retorna 1 se a chave existe na agendamento, caso contrário retorna zero 
+int pertence_agendamento(int chave, agendamento *S){
     transacao * aux;
     aux = S->inicio;   
 
@@ -267,18 +262,21 @@ int pertence_lista(int chave, agendamento *S){
     }
     return 0;
 } 
+*/
 
-/* Cria uma nova lista m contendo uma cópia exata da lista l.
-   Retorna 1 se a operação foi bem sucedida e zero caso contrário */
-int copia_lista(agendamento *S, agendamento * m){
+
+/* Cria um nova agendamento A contendo uma cópia exata doagendamento S.
+   Retorna 1 se a operação foi bem sucedida e zero caso contrário 
+int copia_agendamento(agendamento *S, agendamento *A){
     transacao * aux;
 
     aux = S->inicio;
 
-    insere_fim_lista(aux->dado, m);
+    insere_fim_agendamento(aux->dado, m);
     while (aux->prox != NULL){        
         aux = aux->prox;
-        insere_fim_lista(aux->dado, m);
+        insere_fim_agendamento(aux->dado, m);
     }  
     return 1;     
 }
+*/

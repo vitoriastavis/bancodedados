@@ -6,75 +6,99 @@
 #define MAX_TRANS 10
 #define MAX_LENGTH 10
 
-transacao* read_transacoes(char *filename_in)
-{
-    schedule S = malloc(sizeof(schedule));
-    transacao *tran = malloc(MAX_TRANS*sizeof(transacao));
+transacao* ler_transacoes(char *filename_in){
+    agendamento S = malloc(MAX_TRANS*sizeof(agendamento));
+    transacao *tran = malloc(sizeof(transacao));
 
-    int time;
+    int tempo;
     int id;
-    char op, attribute;
+    char op, atr;
     int commits = 0;
     int n_transacoes = 0;
 
-    char line[MAX_LENGTH] = {0};
-    unsigned int line_count = 0;
+    /*char linha[MAX_LENGTH] = {0};
+    unsigned int n_linhas = 0;*/
 
-    FILE *fp;      
-    fp = fopen(filename_in, "r");  
+    /*FILE *fp;      
+    fp = fopen(filename_in, "r");  */
 
-    printf("vou entrar no while \n");
-
-    if(fp == NULL) {
+    if(fp == NULL){
         perror("Error in opening file");
         return NULL;
     }
 
-    while (!feof(fp) || commits == n_transacoes)
-    {
-        fgets(line, MAX_LENGTH, fp);       
-        //printf("line[%02d]: %s", ++line_count, line);   
+    while (!feof(fp) || commits == n_transacoes){
 
-        time = atoi(&line[0]);
-        id = atoi(&line[2]);
-        op = line[4];
-        attribute = line[6];
+        fscanf(stdin, "%d", &tempo);
 
-        //printf("%d %d %c %c \n", time, id, op, attribute);
+        if (tempo == -1)
+            break;
+
+        fscanf(stdin, "%d", &id);
+        fscanf(stdin, "%c", op);
+        fscanf(stdin, "%c", atr);
+
+        if(op == 'C')
+            commits++;
+        }else{
+            tran->t_chegada = tempo;
+            tran->id = id;
+            tran->operacao = op;
+            tran->atributo = atr;           
+        }
+
+        printf("%d %d %s %s\n", tempo, id, op, atr);
+
+        if (id > n_transacoes)
+            n_transacoes++;
+
+        /*
+        VERSAO C FGETS
+        fgets(linha, MAX_LENGTH, fp);       
+        //printf("linha[%02d]: %s", ++n_linhas, linha);   
+
+        tempo = atoi(&linha[0]);
+        id = atoi(&linha[2]);
+        op = linha[4];
+        atr = linha[6];
+
+        //printf("%d %d %c %c \n", tempo, id, op, atr);
 
         if(op == 'C')
             commits++;
         
-        tran->t_chegada = time;
+        tran->t_chegada = tempo;
         tran->id = id;
         tran->op = op;
-        tran->atributo = attribute;
+        tran->atributo = atr;
         tran->
 
-        schedule[n_transacoes] = tran;
+        agendamento[n_transacoes] = tran;
 
         if (id > n_transacoes)
             n_transacoes++;
 
         printf("%d %d %c %c \n", tran->t_chegada, tran->id, tran->op, tran->atributo);
-    }
+        */
+    
+    
     /*
     while (!feof(fp))
     {
-        fscanf(fp, "%d %d %c %c", time, id, op, attribute);
-        printf("%d %d %c %c \n", &time, id, &op, &attribute);
+        fscanf(fp, "%d %d %c %c", tempo, id, op, atr);
+        printf("%d %d %c %c \n", &tempo, id, &op, &atr);
         
         if(op == 'C'){
             commits++;
         }else{
-            tran->t_chegada = time;
+            tran->t_chegada = tempo;
             tran->id = id;
             tran->op = op;
-            tran->atributo = attribute;
+            tran->atributo = atr;
 
             n_transacoes++;
         }
-        //printf("%d %d %s %s\n", time, id, &op, &attribute);
+        //printf("%d %d %s %s\n", tempo, id, &op, &atr);
     }
     */
     fclose(fp);

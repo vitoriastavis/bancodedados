@@ -2,7 +2,7 @@ typedef struct transacao
 {
     int t_chegada;
     int id;
-    char op;
+    char operacao;
     char atributo;
     struct transacao *prox;
 } transacao;
@@ -19,3 +19,17 @@ typedef struct agendamento
     int tamanho;
     struct transacao *inicio;
 } agendamento;
+
+int cria_transacao(transacao *t);
+
+int imprime_transacao(transacao *t);
+
+int cria_agendamento(agendamento *S);
+
+int agendamento_vazio(agendamento *S);
+
+void destroi_agendamento(agendamento *S);
+
+int insere_agendamento(transacao *t_nova, agendamento *S);
+
+void imprime_agendamento(agendamento *S);

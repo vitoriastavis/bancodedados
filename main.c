@@ -7,7 +7,6 @@ int main(int argc, char ** argv)
 {
     char *arquivo = argv[1];
     FILE *arquivo_saida;
-    // transaction *t = NULL;
 
     arquivo_saida = fopen(arquivo, "w");
 

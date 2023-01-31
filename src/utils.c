@@ -4,23 +4,23 @@
 #include "../includes/utils.h"
 
 #define MAX_TRANS 10
-#define MAX_LENGTH 10
+#define MAX_LENGTH 2
 
-void ler_transacoes()
-{
-    transacao *tran = malloc(2 * sizeof(transacao));
+void ler_transacoes(){
+    agendamento *S = malloc(MAX_TRANS*sizeof(agendamento));    
+    cria_agendamento(S);
+
     int tempo, id;
-    char op[10];
-    char atributo[10];
-    int commits = 0;
-    int id_transacao = 0;
-
-    #ifdef DEBUG
-        printf("Vou ler a entrada padrao\n");
-    #endif
+    char op[MAX_LENGTH];
+    char atr[MAX_LENGTH];
+    int commits;
+    int id_transacao;
 
     while (!feof(stdin))
     {
+        transacao *tran = malloc(sizeof(transacao));
+        cria_transacao(tran);
+
         fscanf(stdin, "%d", &tempo);
 
         if (tempo == -1)
@@ -28,19 +28,22 @@ void ler_transacoes()
 
         fscanf(stdin, "%d", &id);
         fscanf(stdin, "%s", op);
-        fscanf(stdin, "%s", atributo);
+        fscanf(stdin, "%s", atr);
 
-        if(op == 'C'){
+        if(op[0] == 'C')           
             commits++;
-        }else{
-            tran->t_chegada = tempo;
-            tran->id = id;
-            tran->op = op;
-            tran->atributo = atributo;
+        
+        tran->t_chegada = tempo;
+        tran->id = id;
+        tran->operacao = op[0];
+        tran->atributo = atr[0];
 
-            id_transacao++;
-        }
-        printf("%d %d %s %s\n", tempo, id, op, atributo);
+        id_transacao++;
+                
+        //imprime_transacao(tran);
+
+        insere_agendamento(tran, S);
     }
-    return tran;
+
+    imprime_agendamento(S);  
 }
