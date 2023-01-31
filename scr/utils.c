@@ -1,14 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../includes/transaction.h"
+#include "../includes/utils.h"
+#include "../includes/agenda.h"
 
 
 void ler_transacoes()
 {
-    // transaction *tran = malloc(2 * sizeof(transaction));
+    Transacao *tran = malloc(2 * sizeof(Transacao));
     int tempo, id;
-    char op[10];
-    char atributo[10];
+    char op[3];
+    char atributo[3];
     int commits = 0;
     int id_transacao = 0;
 
@@ -23,17 +24,19 @@ void ler_transacoes()
         fscanf(stdin, "%s", op);
         fscanf(stdin, "%s", atributo);
 
-        if(op == 'C'){
+        if(op[0] == 'C'){
             commits++;
         }else{
-            tran->t_chegada = tempo;
-            tran->id = id;
-            tran->op = op;
-            tran->atributo = atributo;
+            tran[id_transacao].t_chegada = tempo;
+            tran[id_transacao].id = id;
+            tran[id_transacao].op = *op;
+            tran[id_transacao].atributo = *atributo;
 
-            id_transaction++;
+#ifdef DEBUG
+    printf("%d %d %c %c\n", tran[id_transacao].t_chegada, tran[id_transacao].id, tran[id_transacao].op, tran[id_transacao].atributo);
+#endif
+            id_transacao++;
         }
-        printf("%d %d %s %s\n", time, id, op, atributo);
     }
     // return tran;
 }

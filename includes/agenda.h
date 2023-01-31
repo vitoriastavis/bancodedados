@@ -1,9 +1,12 @@
+#ifndef AGENDA_H_
+#define AGENDA_H_
+
 typedef struct Transacao
 {
     int t_chegada;
     int id;
-    char *op;
-    char *atributo;
+    char op;
+    char atributo;
 } Transacao;
 
 // Guarda se transacao foi commitada ou nao
@@ -20,3 +23,4 @@ typedef struct Agenda
     Transacao *idTransacao;
 }Agenda;
 
+#endif

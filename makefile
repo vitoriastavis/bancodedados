@@ -17,6 +17,9 @@ all: escalona
 escalona: $(executable)
 	$(CC) -g $(CFLAGS) $(executable) -o escalona
 
+debugger: $(executable)
+	$(CC) -DDEBUG -g $(CFLAGS) $(executable) -o escalona
+
 # Remove arquivos temporários
 clean:
 	-rm -f *~ *.o
