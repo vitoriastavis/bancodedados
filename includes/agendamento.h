@@ -4,20 +4,19 @@ typedef struct transacao
     int id;
     char operacao;
     char atributo;
-    struct transacao *prox;
+    struct transacao *prox_tempo;
+    struct transacao *ant_tempo;
+    struct transacao *prox_op;
+    struct transacao *ant_op;
+    short int commitado;
+    
 } transacao;
-
-// Guarda se transacao foi commitada ou nao
-typedef struct idtransacao {	
-	int id;								
-	short int isCommited;					
-} idtransacao;
 
 // Agenda com todas as transacoes
 typedef struct agendamento
 {   
     int tamanho;
-    struct transacao *inicio;
+    struct transacao *lista_transacoes;
 } agendamento;
 
 int cria_transacao(transacao *t);

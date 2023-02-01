@@ -9,8 +9,10 @@ int cria_transacao(transacao *t){
     t->id = 0;
     t->operacao = "";
     t->atributo = "";
-    t->prox = NULL;
- 
+    t->prox_tempo = NULL;
+    t->prox_op = NULL;
+    t->ant_tempo = NULL;
+    t->ant_op = NULL; 
     return 1;
 }
 
