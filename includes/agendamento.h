@@ -4,19 +4,23 @@ typedef struct transacao
     int id;
     char operacao;
     char atributo;
-    struct transacao *prox_tempo;
-    struct transacao *ant_tempo;
-    struct transacao *prox_op;
-    struct transacao *ant_op;
-    short int commitado;
-    
+    struct transacao *ordem_por_tempo;  //Ordem cronologica em que apenas essa transacao aparece  
 } transacao;
 
-// Agenda com todas as transacoes
+typedef struct idEscalonamento
+{
+    int idEsc;
+    int commitado;
+} idEscalonamento;
+
+
+// Agenda com todas as transacoes por ordem de chegada
 typedef struct agendamento
 {   
     int tamanho;
-    struct transacao *lista_transacoes;
+    transacao *lista_transacoes;
+    idEscalonamento *lista_escalonamentos;
+    
 } agendamento;
 
 int cria_transacao(transacao *t);
