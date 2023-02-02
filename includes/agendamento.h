@@ -11,19 +11,17 @@ typedef struct idEscalonamento
 {
     int idEsc;
     int commitado;
+    int tam_transacao;
 } idEscalonamento;
 
-
-// Agenda com todas as transacoes por ordem de chegada
 typedef struct agendamento
 {   
-    int tamanho;
-    transacao *lista_transacoes;
-    idEscalonamento *lista_escalonamentos;
-    
+    int qtd_transacoes;
+    transacao **lista_transacoes; // lista com todas as transacoes por ordem de chegada
+    idEscalonamento *lista_escalonamentos; // lista com ids unicos das transacoes
 } agendamento;
 
-int cria_transacao(transacao *t);
+int guarda_transacao(transacao *t, agendamento *S, int pos);
 
 int imprime_transacao(transacao *t);
 
@@ -36,3 +34,7 @@ void destroi_agendamento(agendamento *S);
 int insere_agendamento(transacao *t_nova, agendamento *S);
 
 void imprime_agendamento(agendamento *S);
+
+void guarda_indices_unicos(agendamento *S);
+
+int verifica_existencia_id(int id, agendamento *S);

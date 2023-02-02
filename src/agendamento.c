@@ -3,16 +3,16 @@
 #include <stddef.h>
 #include "../includes/agendamento.h"
 
-/* Cria um agendamento vazio */
-int cria_transacao(transacao *t){
-    t->t_chegada = 0;
-    t->id = 0;
-    t->operacao = "";
-    t->atributo = "";
-    t->prox_tempo = NULL;
-    t->prox_op = NULL;
-    t->ant_tempo = NULL;
-    t->ant_op = NULL; 
+#define MAX_TRANS 10
+
+/* Guarda uma transacao na lista de transacoes */
+int guarda_transacao(transacao *t, agendamento *S, int pos){
+    S->lista_transacoes[pos] = (transacao *)malloc(sizeof(transacao));
+
+    S->lista_transacoes[pos]->t_chegada = t->t_chegada;
+    S->lista_transacoes[pos]->id = t->id;
+    S->lista_transacoes[pos]->operacao = t->operacao;
+    S->lista_transacoes[pos]->atributo = t->atributo;
     return 1;
 }
 
@@ -27,57 +27,100 @@ int imprime_transacao(transacao *t){
 
 /* Cria um agendamento vazio */
 int cria_agendamento(agendamento *S){
-    S->inicio = NULL;
-    S->tamanho = 0;   
+    S->qtd_transacoes = 0;
+    S->lista_transacoes = (transacao **)malloc(MAX_TRANS*sizeof(transacao *));
+    S->lista_escalonamentos = malloc(MAX_TRANS*sizeof(int));
 
     return 1;
 }
 
 /* Retorna 1 se a agendamento está vazio e zero caso contrário; */
 int agendamento_vazio(agendamento *S){
-    if ((S->inicio == NULL) && (S->tamanho == 0))
+    if (S->qtd_transacoes == 0)
         return 1;
     return 0;
 }
 
-/* Remove todos os elementos doagendamento e aponta ela para NULL */
-void destroi_agendamento(agendamento *S){
-    transacao *aux;
+// /* Remove todos os elementos doagendamento e aponta ela para NULL */
+// void destroi_agendamento(agendamento *S){
+//     transacao *aux;
  
-    if(agendamento_vazio(S)){
-        printf("não destruida: agendamento vazio\n");
-    }
+//     if(agendamento_vazio(S)){
+//         printf("não destruida: agendamento vazio\n");
+//     }
 
-    while (S->inicio != NULL){
-        aux = S->inicio;
-        S->inicio = aux->prox;
-        S->tamanho--;
-        free(aux);
-    }        
-}
+//     while (S->inicio != NULL){
+//         aux = S->inicio;
+//         S->inicio = aux->prox;
+//         S->tamanho--;
+//         free(aux);
+//     }        
+// }
 
 /* Insere a transacao no fim do agendamento;
    Retorna 1 se a operação foi bem sucedida e zero caso contrario */
 int insere_agendamento(transacao *t_nova, agendamento *S){ 
-    transacao *aux;
 
     if(!S || !t_nova)
         return 0;
 
-    if(agendamento_vazio(S))
-        S->inicio = t_nova;
-    else{
-        aux = S->inicio;
-
-        while(aux->prox != NULL)
-            aux = aux->prox;
-        
-        aux->prox = t_nova;
+    if(agendamento_vazio(S)){
+        guarda_transacao(t_nova, S, 1);
+    }
+    else {
+        guarda_transacao(t_nova, S, S->qtd_transacoes+1);
     } 
-
-    S->tamanho++; 
-
+    S->qtd_transacoes++; 
     return 1;    
+}
+
+/* Imprime os elementos doagendamento, do inı́cio ao final.
+   Se ela for vazio não imprime nada*/
+void imprime_agendamento(agendamento *S){
+    transacao *posicao;   
+
+    if (agendamento_vazio(S)){ 
+        return;
+    }
+
+    int tam = S->qtd_transacoes;
+    printf("tam: %d \n", S->qtd_transacoes);  
+
+    for (int i = 1; i <= tam; i++){
+        imprime_transacao(S->lista_transacoes[i]); 
+    }
+    printf("\n");
+}
+
+void guarda_indices_unicos(agendamento *S){
+    int qtd_transacoes = S->qtd_transacoes;
+    int id;
+
+    for (int i = 0; i < qtd_transacoes; i++){
+        id = S->lista_transacoes[i]->id;
+
+        if (!verifica_existencia_id(id, S)){
+            S->lista_escalonamentos[id].idEsc = id;
+        }
+
+        S->lista_escalonamentos[id].tam_transacao++;
+
+        if (S->lista_transacoes[i]->operacao == 'C'){
+            S->lista_escalonamentos[id].commitado = 1;
+        }
+    } 
+}
+
+int verifica_existencia_id(int id, agendamento *S){
+    short int existe = 0;
+
+    for (int i = 0; i < VERIFICAR_COMO; i++) {
+        if (id == S->lista_escalonamentos[id].idEsc) {
+            existe = 1;
+            break;
+        }
+    }
+    return existe;
 }
 
 
@@ -133,27 +176,6 @@ int insere_ordenado_agendamento(int x, agendamento *S){
 }
 
  */
-
-/* Imprime os elementos doagendamento, do inı́cio ao final.
-   Se ela for vazio não imprime nada*/
-void imprime_agendamento(agendamento *S){
-    transacao *posicao;   
-
-    if (agendamento_vazio(S)){ 
-        return;
-    }
-
-    posicao = S->inicio;  
-
-    printf("tam: %d \n", S->tamanho);   
-    imprime_transacao(posicao);
-
-    while (posicao->prox != NULL){        
-        posicao = posicao->prox; 
-        imprime_transacao(posicao); 
-    }
-    printf("\n");
-}
 
 /* Remove o 1o elemento doagendamento e o retorna em *item;
    Retorna 1 se a operação foi bem sucedida e zero caso contrário 

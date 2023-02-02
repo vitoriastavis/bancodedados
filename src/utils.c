@@ -3,11 +3,9 @@
 #include <string.h>
 #include "../includes/utils.h"
 
-#define MAX_TRANS 10
 #define MAX_LENGTH 2
 
-void ler_transacoes(){
-    agendamento *S = malloc(MAX_TRANS*sizeof(agendamento));    
+void ler_transacoes(agendamento *S){   
     cria_agendamento(S);
 
     int tempo, id;
@@ -19,7 +17,6 @@ void ler_transacoes(){
     while (!feof(stdin))
     {
         transacao *tran = malloc(sizeof(transacao));
-        cria_transacao(tran);
 
         fscanf(stdin, "%d", &tempo);
 
@@ -29,21 +26,18 @@ void ler_transacoes(){
         fscanf(stdin, "%d", &id);
         fscanf(stdin, "%s", op);
         fscanf(stdin, "%s", atr);
-
-        if(op[0] == 'C')           
-            commits++;
         
         tran->t_chegada = tempo;
         tran->id = id;
         tran->operacao = op[0];
         tran->atributo = atr[0];
 
-        id_transacao++;
-                
-        //imprime_transacao(tran);
+        // imprime_transacao(tran);
 
         insere_agendamento(tran, S);
     }
 
-    imprime_agendamento(S);  
+    imprime_agendamento(S);
+    guarda_indices_unicos(S);  
 }
+

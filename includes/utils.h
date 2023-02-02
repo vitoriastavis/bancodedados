@@ -2,7 +2,7 @@
 #define __UTILS_H__
 #include "../includes/agendamento.h"
 
-void ler_transacoes();
+void ler_transacoes(agendamento *S);
 //transacao* ler_transacoes(char *filename_in);
 
 #endif // __UTILS_H__
