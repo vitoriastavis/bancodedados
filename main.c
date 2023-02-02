@@ -10,6 +10,7 @@ int main(int argc, char ** argv)
     char *arquivo = argv[1];
     FILE *arquivo_saida;
     agendamento *S = malloc(MAX_TRANS*sizeof(agendamento)); 
+    cria_agendamento(S);
 
     arquivo_saida = fopen(arquivo, "w");
 
@@ -18,7 +19,7 @@ int main(int argc, char ** argv)
     //     fprintf(stderr, "Erro na abertura do arquivo de saída.");
     //     exit(0);
     // }
-
+  
     ler_transacoes(S);
     // guarda_ordem_cronologica(S);
 

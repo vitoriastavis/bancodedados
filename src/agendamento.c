@@ -92,6 +92,7 @@ void imprime_agendamento(agendamento *S){
     printf("\n");
 }
 
+
 void guarda_indices_unicos(agendamento *S){
     int qtd_transacoes = S->qtd_transacoes;
     int id;
@@ -111,6 +112,7 @@ void guarda_indices_unicos(agendamento *S){
     } 
 }
 
+
 int verifica_existencia_id(int id, agendamento *S){
     short int existe = 0;
 
@@ -122,6 +124,7 @@ int verifica_existencia_id(int id, agendamento *S){
     }
     return existe;
 }
+
 
 
 /* Insere x na agendamento de maneira que ela fique em ordem crescente

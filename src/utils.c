@@ -5,8 +5,7 @@
 
 #define MAX_LENGTH 2
 
-void ler_transacoes(agendamento *S){   
-    cria_agendamento(S);
+void ler_transacoes(agendamento *S){    
 
     int tempo, id;
     char op[MAX_LENGTH];
