@@ -1,16 +1,8 @@
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "../includes/transacao.h"
 
-void adiciona_aresta(Transacao *transacoes, int ti, int tj)
-{
-    int num_adj = transacoes[ti].num_adjacentes;
-    transacoes[ti].adjacencias[num_adj] = &transacoes[tj];
-    transacoes[ti].num_adjacentes += 1;
-}
-
-void adiciona_dependencia_transacoes(Transacao *transacoes, int num_transacoes)
+void adiciona_dependencia_transacoes(Transacao *transacoes, int num_transacoes, Grafo *g)
 {
     /* Guarda dependencia por conflito */
     for (int i = 0; i < num_transacoes; i++)
@@ -29,17 +21,17 @@ void adiciona_dependencia_transacoes(Transacao *transacoes, int num_transacoes)
                     /* Regra 2 */
                     if (transacoes[j].operacao == 'R' && operacao == 'W') {
                         printf("Regra 2. Ti: %d -> Tj: %d\n", transacoes[i].identificador, transacoes[j].identificador);
-                        adiciona_aresta(transacoes, i, j);
+                        adiciona_aresta(g, transacoes[i].identificador, transacoes[j].identificador);
                     } 
                     /* Regra 3 */
                     if (transacoes[j].operacao == 'W' && operacao == 'R') {
                         printf("Regra 3. Ti: %d -> Tj: %d\n", transacoes[i].identificador, transacoes[j].identificador);
-                        adiciona_aresta(transacoes, i, j);
+                        adiciona_aresta(g, transacoes[i].identificador, transacoes[j].identificador);
                     } 
                     /* Regra 4 */
                     if (transacoes[j].operacao == 'W' && operacao == 'W') {
                         printf("Regra 4. Ti: %d -> Tj: %d\n", transacoes[i].identificador, transacoes[j].identificador);
-                        adiciona_aresta(transacoes, i, j);
+                        adiciona_aresta(g, transacoes[i].identificador, transacoes[j].identificador);
                     }
                 }
             }
