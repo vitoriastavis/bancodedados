@@ -1,30 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include "includes/utils.h"
-#include "includes/transaction.h"
-// #include "graph.h"
-// #include "transaction.h"
+#include "includes/transacao.h"
 
-#define MAX_LEN 5
-#define MAX_T 10
+#define MAX_TRANSACOES 1000
 
 int main(int argc, char ** argv)
 {
-    char *filename_out = argv[1];
-    FILE *file_out;
-    transaction *t = NULL;
+    Transacao *transacoes = malloc(MAX_TRANSACOES * sizeof(Transacao));
+    int num_transacoes = 0;
+    
+    num_transacoes = read_and_save_input(transacoes);
+    adiciona_dependencia_transacoes(transacoes, num_transacoes);
+    imprime_transacao(transacoes, num_transacoes);
 
-    file_out = fopen(filename_out, "w");
-
-    if (!file_out)
-    {
-        fprintf(stderr, "Erro na abertura do arquivo de saída.");
-        exit(0);
-    }
-
-    t = read_transactions();
-
-    fclose(file_out);
     return 0;
 }

@@ -1,31 +1,49 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../includes/transaction.h"
+#include "../includes/utils.h"
+// #include "../includes/transacao.h"
+
+#define MAX_TRANSACOES 1000
+#define MAX_LENGTH 2
 
 
-transaction* read_transactions()
-{
-    transaction *tran = malloc(2 * sizeof(transaction));
-    int time, id;
-    char op, attribute;
-    int commits = 0;
-    int id_transaction = 0;
+/* Le e armazena dados lidos do input */
+int read_and_save_input(Transacao *transacoes) {
+    int num_transacoes = 0;
+    int tempo, id;
+    char op[MAX_LENGTH];
+    char atr[MAX_LENGTH];
+    int max = MAX_TRANSACOES;
 
-    while (!feof(stdin))
-    {
-        fscanf(stdin, "%d %d %c %c", &time, &id, &op, &attribute);
 
-        if(op == 'C'){
-            commits++;
-        }else{
-            tran->t_chegada = time;
-            tran->id = id;
-            tran->op = op;
-            tran->atributo = attribute;
+    /* Guarda apenas os valores lidos */
+    while (!feof(stdin)) {
 
-            id_transaction++;
+        fscanf(stdin, "%d", &tempo);
+
+        /* Para caso tenha linha em branco ou arquivo tenha terminado */
+        if (tempo == -1)
+            break;
+
+        fscanf(stdin, "%d", &id);
+        fscanf(stdin, "%s", op);
+        fscanf(stdin, "%s", atr);
+
+        transacoes[num_transacoes].tempo_chegada = tempo;
+        transacoes[num_transacoes].identificador = id;
+        transacoes[num_transacoes].operacao = op[0];
+        transacoes[num_transacoes].atributo = atr[0];
+        transacoes[num_transacoes].num_adjacentes = 0;
+        transacoes[num_transacoes].adjacencias = malloc(MAX_TRANSACOES * sizeof(Transacao));
+        transacoes[num_transacoes].proximo = malloc(MAX_TRANSACOES * sizeof(Transacao));
+        
+        num_transacoes++;
+
+        /* Aloca memória dinamicamente */
+        if (num_transacoes == max) {
+            max *= 2;
+            transacoes = realloc(transacoes, max * sizeof(Transacao));
         }
-        printf("%d %d %s %s\n", time, id, &op, &attribute);
     }
-    return tran;
+    return num_transacoes;
 }

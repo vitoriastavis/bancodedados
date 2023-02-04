@@ -1,12 +1,12 @@
 CC = gcc
 
 INC=./includes
-SRC=./scr
+SRC=./src
 
 CFLAGS = -Wall
 
-executable = main.c $(SRC)/utils.c
-library = $(INC)/transaction.h $(INC)/utils.h
+executable = main.c $(SRC)/transacao.c $(SRC)/utils.c
+library = $(INC)/transacao.h $(INC)/utils.h
 
 # Define regra default
 all: escalona
