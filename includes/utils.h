@@ -3,6 +3,6 @@
 
 #include "transacao.h"
 
-int read_and_save_input(Transacao *transacoes);
+int le_salva_entrada(Transacao *transacoes);
 
 #endif // __UTILS_H__

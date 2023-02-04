@@ -10,7 +10,7 @@ int main(int argc, char ** argv)
     Transacao *transacoes = malloc(MAX_TRANSACOES * sizeof(Transacao));
     int num_transacoes = 0;
     
-    num_transacoes = read_and_save_input(transacoes);
+    num_transacoes = le_salva_entrada(transacoes);
     adiciona_dependencia_transacoes(transacoes, num_transacoes);
     imprime_transacao(transacoes, num_transacoes);
 

@@ -1,14 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../includes/utils.h"
-// #include "../includes/transacao.h"
 
 #define MAX_TRANSACOES 1000
 #define MAX_LENGTH 2
 
 
 /* Le e armazena dados lidos do input */
-int read_and_save_input(Transacao *transacoes) {
+int le_salva_entrada(Transacao *transacoes) {
     int num_transacoes = 0;
     int tempo, id;
     char op[MAX_LENGTH];
