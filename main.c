@@ -15,8 +15,10 @@ int main(int argc, char ** argv)
     cria_grafo(g);
     num_transacoes = le_salva_entrada(transacoes, g);    
     adiciona_dependencia_transacoes(transacoes, num_transacoes, g);
-    // imprime_grafo(g);
-    // imprime_transacao(transacoes, num_transacoes);
+
+    int tem_ciclo = verifica_existencia_ciclo(g);
+
+    tem_ciclo ? printf("NS "): printf("SS ");
 
     return 0;
 }

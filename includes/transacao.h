@@ -15,6 +15,13 @@ struct Transacao {
     Transacao *proximo;
 };
 
+typedef struct Agenda
+{
+    int id_esc;
+    Transacao *lista_escalonamento; /* cada escalonamento representa grupos de transacoes*/
+}Agenda;
+
+
 void adiciona_dependencia_transacoes(Transacao *transacoes, int num_transacoes, Grafo *g);
 void imprime_transacao(Transacao *transacoes, int num_transacoes);
 
