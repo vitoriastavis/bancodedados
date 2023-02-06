@@ -113,7 +113,7 @@ void adiciona_ativas(int *ativas, int *tam, int id)
     *tam += 1;
 }
 
-void imprime_resposta_final(Agenda a, int tem_ciclo)
+void imprime_resposta_final(Agenda a, int tem_ciclo, int equivalente)
 {
     /* Imprime identificado do escalonamento */
     printf("%d ", a.id_esc + 1);
@@ -129,6 +129,7 @@ void imprime_resposta_final(Agenda a, int tem_ciclo)
     /* Imprime resultado do algoritmo de garantia de serialidade */
     tem_ciclo ? printf(" NS "): printf(" SS ");
 
+    equivalente ? printf("SV") : printf("NV");
     /* Imprime resultado do algoritmo de teste de equivalencia de visao */
     printf("\n");
 }

@@ -16,7 +16,7 @@ int main(int argc, char ** argv)
 
         int tem_ciclo = verifica_existencia_ciclo(&(escalonamento->lista_escalonamento[agenda].grafo_gerado));
 
-        imprime_resposta_final(escalonamento->lista_escalonamento[agenda], tem_ciclo);
+        imprime_resposta_final(escalonamento->lista_escalonamento[agenda], tem_ciclo, 0);
     }
 
     return 0;
