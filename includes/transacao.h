@@ -18,11 +18,18 @@ struct Transacao {
 typedef struct Agenda
 {
     int id_esc;
-    Transacao *lista_escalonamento; /* cada escalonamento representa grupos de transacoes*/
+    int num_transacoes;
+    Transacao *lista_transacoes;
+    Grafo grafo_gerado;
 }Agenda;
 
+typedef struct Escalonamento
+{
+    int total_agendas;
+    Agenda *lista_escalonamento;
+}Escalonamento;
 
-void adiciona_dependencia_transacoes(Transacao *transacoes, int num_transacoes, Grafo *g);
+void adiciona_dependencia_transacoes(Agenda *agenda);
 void imprime_transacao(Transacao *transacoes, int num_transacoes);
 
 #endif // __TRANSACAO_H__

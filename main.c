@@ -1,24 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "includes/utils.h"
-#include "includes/transacao.h"
-#include "includes/grafo.h"
-
-#define MAX_TRANSACOES 1000
 
 int main(int argc, char ** argv)
 {
-    Transacao *transacoes = malloc(MAX_TRANSACOES * sizeof(Transacao));
-    Grafo *g = malloc(MAX_TRANSACOES*sizeof(Grafo));
-    int num_transacoes = 0;
+    Escalonamento *escalonamento = (Escalonamento*)malloc(sizeof(Escalonamento));
     
-    cria_grafo(g);
-    num_transacoes = le_salva_entrada(transacoes, g);    
-    adiciona_dependencia_transacoes(transacoes, num_transacoes, g);
+    le_salva_entrada(escalonamento);
 
-    int tem_ciclo = verifica_existencia_ciclo(g);
+    int num_agendas = escalonamento->total_agendas;
 
-    tem_ciclo ? printf("NS "): printf("SS ");
+    /* Percorre cada grupo de transacoes de cada agenda */
+    for(int agenda = 0; agenda < num_agendas; agenda++) {
+        adiciona_dependencia_transacoes(&(escalonamento->lista_escalonamento[agenda]));
+
+        int tem_ciclo = verifica_existencia_ciclo(&(escalonamento->lista_escalonamento[agenda].grafo_gerado));
+
+        imprime_resposta_final(escalonamento->lista_escalonamento[agenda], tem_ciclo);
+    }
 
     return 0;
 }
