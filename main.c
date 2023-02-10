@@ -1,28 +1,28 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include "includes/utils.h"
-
-#define MAX_TRANS 10
+#include "includes/visao.h"
 
 int main(int argc, char ** argv)
 {
-    char *arquivo = argv[1];
-    FILE *arquivo_saida;
-    agendamento *S = malloc(MAX_TRANS*sizeof(agendamento)); 
-    cria_agendamento(S);
+    Escalonamento *escalonamento = (Escalonamento*)malloc(sizeof(Escalonamento));
+    
+    le_salva_entrada(escalonamento);
 
-    arquivo_saida = fopen(arquivo, "w");
+    int num_agendas = escalonamento->total_agendas;
 
-    // if (!arquivo_saida)
-    // {
-    //     fprintf(stderr, "Erro na abertura do arquivo de saída.");
-    //     exit(0);
-    // }
-  
-    ler_transacoes(S);
-    // guarda_ordem_cronologica(S);
+    /* Percorre cada grupo de transacoes de cada agenda */
+    /*for(int agenda = 0; agenda < num_agendas; agenda++) {
+        adiciona_dependencia_transacoes(&(escalonamento->lista_escalonamento[agenda]));
 
-    // fclose(arquivo_saida);
+        int tem_ciclo = verifica_existencia_ciclo(&(escalonamento->lista_escalonamento[agenda].grafo_gerado));
+
+        imprime_resposta_final(escalonamento->lista_escalonamento[agenda], tem_ciclo, 0);
+    }*/
+
+    
+
+    cria_combinacoes(3, 6);
+
     return 0;
 }

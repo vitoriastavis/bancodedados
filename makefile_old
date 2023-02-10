@@ -1,3 +1,5 @@
+# Leticia Fontanelli Straube de Souza | GRR20190569 
+# Vitória Stavis | GRR20200243
 CC = gcc
 
 INC=./includes
@@ -5,8 +7,8 @@ SRC=./src
 
 CFLAGS = -Wall
 
-executable = main.c $(SRC)/transacao.c $(SRC)/utils.c $(SRC)/grafo.c $(SRC)/visao.c
-library = $(INC)/transacao.h $(INC)/utils.h $(INC)/grafo.h $(INC)/visao.h
+executable = main.c $(SRC)/utils.c $(SRC)/agendamento.c $(SRC)/visao.c
+library = $(INC)/agendamento.h $(INC)/utils.h $(INC)/visao.h
 
 # Define regra default
 all: escalona
@@ -14,6 +16,9 @@ all: escalona
 # escalona: $(executable) $(library)
 escalona: $(executable)
 	$(CC) -g $(CFLAGS) $(executable) -o escalona
+
+debugger: $(executable)
+	$(CC) -DDEBUG -g $(CFLAGS) $(executable) -o escalona
 
 # Remove arquivos temporários
 clean:

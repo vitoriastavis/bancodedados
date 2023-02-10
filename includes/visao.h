@@ -1,3 +1,3 @@
 int fatorial(int n);
 
-int npr(int n, int r);
+int npr(int n);
