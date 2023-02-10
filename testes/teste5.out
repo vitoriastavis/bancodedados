@@ -1,0 +1,12 @@
+Regra 3. Ti: 9 -> Tj: 10
+Regra 3. Ti: 9 -> Tj: 11
+Regra 3. Ti: 8 -> Tj: 10
+Regra 3. Ti: 8 -> Tj: 11
+Regra 2. Ti: 8 -> Tj: 10
+Regra 2. Ti: 8 -> Tj: 11
+Regra 2. Ti: 8 -> Tj: 11
+Regra 2. Ti: 8 -> Tj: 9
+Regra 4. Ti: 8 -> Tj: 11
+Regra 4. Ti: 10 -> Tj: 11
+Regra 3. Ti: 9 -> Tj: 11
+1 9,8,10,11 NS NV

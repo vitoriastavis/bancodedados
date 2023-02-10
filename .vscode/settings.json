@@ -3,6 +3,7 @@
         "stdlib.h": "c",
         "transacao.h": "c",
         "stdio.h": "c",
-        "utils.h": "c"
+        "utils.h": "c",
+        "grafo.h": "c"
     }
 }
