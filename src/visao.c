@@ -19,7 +19,7 @@ int npr(int n){
     return fatorial(n)/fatorial(n-r);
 }
 
-int permuta(int n, int **matriz)
+void permuta(int n, int **matriz)
 {   
     int a[n];
     int i, j, k, store;
@@ -50,7 +50,7 @@ int permuta(int n, int **matriz)
 }
 
 // passar só o escalonamento e pegar o n_trans
-**int cria_combinacoes(int n_trans, int n_visoes){  
+int** cria_combinacoes(int n_trans, int n_visoes){  
    
     int **matriz;
     
@@ -101,8 +101,48 @@ int cria_visao(S, visao, int **matriz, int cont_visoes, int n_trans){
 
 }
 
-int analisa_visao(S, visao){
+boolean analisa_visao(S, visao){
 
+    int n_trans = S->qtd_transacoes;  
+
+    // vetores cujo indice eh o numero da transacao e conteudo eh o atributo da op
+    char atributos_read[10];
+    char atributos_write[10];
+
+    // marca ultimo write de cada transacao
+    char ultimo_write
+
+    int cont = 0;
+    int ordem[10];
+    
+    bool eh_equi = true;
+
+    while < n_trans e eh_equi == true   
+    {
+        pega primeira operacao
+        
+        se for write
+        {
+            atributos_write[transacao->id] = transacao->atr;
+
+            ultimo_write[transacao->id] = 
+        }
+        se for read 
+            atributos_read[transacao->id] = transacao->atr;
+            // anda no vetor atributos_write procurando um com o mesmo atributo
+            for(int i = 0; i < transacao->id; i++)
+            {
+                if atributos_write[i] = transacao->atr
+                {
+                    ordem[cont] = i;
+                    ordem[cont+1] = transacao->id;
+
+                    cont += 2;
+                }
+            }      
+            
+        vai pra proxima em timestamp
+    }
 }
 
 
