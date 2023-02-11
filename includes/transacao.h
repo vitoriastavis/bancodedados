@@ -16,6 +16,7 @@ struct Transacao {
 
 typedef struct Agenda
 {
+    int tam;
     int num_transacoes;
     int *lista_ids_unicos;
     Transacao *inicio;

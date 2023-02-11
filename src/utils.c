@@ -51,6 +51,7 @@ void le_salva_entradas(Escalonamento *e)
         if (tam_ativas == 0) {
             /* Salva agenda */
             e->lista_escalonamento[e->total_agendas] = a_aux;
+            e->lista_escalonamento[e->total_agendas]->lista_ids_unicos = salva_ids(a_aux);
             e->total_agendas++;
 
             /* Zera variaveis auxiliares */
@@ -58,18 +59,9 @@ void le_salva_entradas(Escalonamento *e)
         }
     }
 
+    /*TESTE*/
     printf("Tivemos %d escalonamentos\n", e->total_agendas);
-    // for(int j = 0; j < e->total_agendas; j++){
-
-    //     Transacao *auxx = e->lista_escalonamento[j]->inicio;
-
-    //     for(int i = 0; i < e->lista_escalonamento[j]->num_transacoes; i++){
-    //         printf("%d ", auxx->identificador);
-    //         auxx = auxx->proximo;
-    //     }
-    //     printf("\n");
-    // }
-    // printf("\n");
+    imprime_agenda_completa(e);
 }
 
 /* ----------------------------------- */
