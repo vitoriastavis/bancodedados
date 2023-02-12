@@ -39,7 +39,6 @@ int DFS(Grafo *g, int *visitados, int v){
     return 0;
 }
 
-/* Retorna 1 caso tenho e 0 caso não tenha */
 int verifica_existencia_ciclo(Grafo *g)
 {
     int *visitados = malloc(g->n_vertice*sizeof(int));
