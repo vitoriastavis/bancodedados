@@ -1,6 +1,10 @@
 #ifndef __GRAFO_H__
 #define __GRAFO_H__
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 typedef struct Grafo
 {
     int n_vertice;
@@ -8,17 +12,10 @@ typedef struct Grafo
     int **matriz_adj;
 } Grafo;
 
-// void cria_grafo(Grafo *g);
-// void adiciona_no(Grafo *g, int id);
-// int existe_vertice(Grafo *g, int id);
-// void imprime_grafo(Grafo *g);
-// void adiciona_aresta(Grafo *g, int ti, int tj);
-// int encontra_posicao(Grafo *g, int ti);
-// int verifica_existencia_ciclo(Grafo *g);
-// void DFS(Grafo *g, int *visitados, int v, int *tem_ciclo);
-// void imprime_matriz(Grafo *g) ;
-// void cria_matriz_adjacencia(Grafo *g);
-// void inicializa_matriz(Grafo *g);
-// void imprime_lista_vizinhos(Vertice v);
+Grafo *cria_grafo(int qtd_vertices);
+void adiciona_aresta(Grafo *g, int ti, int tj);
+void imprime_grafo(Grafo *g);
+int verifica_existencia_ciclo(Grafo *g);
+int DFS(Grafo *g, int *visitados, int v);
 
 #endif // __GRAFO_H__

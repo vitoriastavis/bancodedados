@@ -4,6 +4,8 @@
         "transacao.h": "c",
         "stdio.h": "c",
         "utils.h": "c",
-        "grafo.h": "c"
+        "grafo.h": "c",
+        "serializavelconflito.h": "c",
+        "string.h": "c"
     }
 }

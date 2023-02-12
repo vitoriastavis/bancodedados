@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "../includes/agenda.h"
 
 Agenda *cria_agenda()
@@ -35,6 +33,9 @@ int *salva_ids(Agenda *agenda)
     int *existentes = malloc(tam * sizeof(int));
     Transacao *aux = agenda->inicio;
     int eh_unico;
+    int chave;
+    short int j;
+
 
     for (int i = 0; i < tam; i++){
         eh_unico = 1;
@@ -50,6 +51,20 @@ int *salva_ids(Agenda *agenda)
         }
         aux = aux->proximo;
     }
+
+    /* Ordena por Insertion Sort */
+    for (int i = 0; i < agenda->num_transacoes; i++){
+        chave = existentes[i];
+        j = i - 1;
+        while (j >= 0 && existentes[j] > chave)
+        {
+            existentes[j+1] = existentes[j];
+            j = j - 1;
+        }
+        existentes[j+1] = chave;
+    }
+
+    free(aux);
     return existentes;
 }
 
@@ -63,7 +78,7 @@ void imprime_ids(Agenda *a){
 void imprime_agenda_completa(Escalonamento *e)
 {
     for(int j = 0; j < e->total_agendas; j++){
-        Transacao *auxx = e->lista_escalonamento[j]->inicio;
+        Transacao *aux = e->lista_escalonamento[j]->inicio;
         
         printf("\n\n ---- Informacoes da agenda %d --- \n", j);
         printf("Tamanho: %d\nNum transacoes: %d \n", e->lista_escalonamento[j]->tam, e->lista_escalonamento[j]->num_transacoes);
@@ -71,9 +86,10 @@ void imprime_agenda_completa(Escalonamento *e)
         printf("\nOrdem de transcoes processadas: ");
 
         for(int i = 0; i < e->lista_escalonamento[j]->tam; i++){
-            printf("%d ", auxx->identificador);
-            auxx = auxx->proximo;
+            printf("%d ", aux->identificador);
+            aux = aux->proximo;
         }
+        free(aux);
     }
     printf("\n");
 }
