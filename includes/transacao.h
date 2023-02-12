@@ -31,7 +31,21 @@ typedef struct Escalonamento
     Agenda **lista_escalonamento;
 }Escalonamento;
 
+/*!
+    @brief Função que aloca memória para estrutura de transação.
+    @param tempo: Timestamp da transação
+    @param id: Identificador da transação
+    @param op: Operação feita pela transação
+    @param atr: Atributo utilizado pela transação
+    @return Ponteiro de acesso.
+*/
 Transacao *cria_transacao(int tempo, int id, char op, char atr);
+
+/*!
+    @brief Função auxiliar que imprime dados da transação.
+    @param a: Ponteiro para acesso à estrutura de agenda
+    @return None
+*/
 void imprime_transacao(Agenda *a);
 
 #endif // __TRANSACAO_H__
