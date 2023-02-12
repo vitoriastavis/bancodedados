@@ -103,12 +103,105 @@ int cria_visao(S, visao, int **matriz, int cont_visoes, int n_trans){
 
 boolean analisa_visao(S, visao){
 
+    int id;
     int n_trans = S->qtd_transacoes;  
 
-    // vetores cujo indice eh o numero da transacao e conteudo eh o atributo da op
-    char atributos_read[10];
-    char atributos_write[10];
+    // cria duas matrizes para armazenar os atributos escritos e lidos para cada transação no escalonamento
+    int writes[qtd_transacoes][num_operacoes];
+    int reads[qtd_transacoes][num_operacoes];
 
+    // inicializa matrizes
+    for (int i = 0; i < qtd_transacoes; i++)
+    {
+        for (int j = 0; j < num_operacoes; j++)
+        {
+            writes[i][j] = 0;
+            reads[i][j] = 0;
+        }
+    }
+
+    // cria dois vetores para armazenar número de leituras e escritas por vetor
+    int *cont_escrita = calloc(MAX_TRANSACTIONS, sizeof(int));
+    int *cont_leitura = calloc(MAX_TRANSACTIONS, sizeof(int));
+
+    // contabiliza operações e armazena a operação de cada transação
+    for (int i = 0; i < num_operacoes; i++)
+    {
+        id = transacoes[i].identificador;
+        
+        if (transacoes[i].operacao == 'R')
+        {
+            reads[id][cont_leitura[id]] = transacoes[i].atributo;
+            cont_leitura[id]++;
+        }
+        else if (transacoes[i].operacao == 'W')
+        {
+            writes[id][cont_escrita[id]] = transacoes[i].atributo;
+            cont_escrita[id]++;
+        }
+    }
+
+    // verifica se para cada leitura de atributo de Ti já foi escrito por Tj
+    for (int i = 0; i < qtd_transacoes; i++)
+    {
+        for (int j = 0; j < cont_leitura[i]; j++)
+        {
+            int atributo = reads[i][j];
+            int escrito = 0;
+            for (int k = 0; k < qtd_transacoes; k++)
+            {
+                // garante que não seja considerada as escritas da própria transação Ti
+                if (k == i)
+                    continue;
+                for (int l = 0; l < cont_escrita[k]; l++)
+                {
+                    if (writes[k][l] == atributo)
+                    {
+                        escrito = 1;
+                        break;
+                    }
+                }
+                if (escrito)
+                    // salvar para comparar com a visao
+            }
+            if (!escrito)
+                // n precisa fazer nada acho
+        }
+    }
+
+    // valida se a escrita de um atributo for a última operação da transação
+    for (int i = 0; i < qtd_transacoes; i++)
+    {
+        for (int j = 0; j < cont_escrita[i]; j++)
+        {
+            int atributo = writes[i][j];
+            for (int k = 0; k < qtd_transacoes; k++)
+            {
+                // garante que não seja considerada as operações de escrita da transação i
+                if (k == i)
+                    continue;
+                for (int l = 0; l < cont_escrita[k]; l++)
+                {
+                    if (writes[k][l] == atributo)
+                        return "NV";
+                }
+            }
+        }
+    } 
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // testando outro jeito de fazer:
     // marca ultimo write de cada transacao
     char ultimo_write
 

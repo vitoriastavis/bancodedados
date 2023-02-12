@@ -1,28 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "includes/utils.h"
-#include "includes/visao.h"
 
 int main(int argc, char ** argv)
 {
-    Escalonamento *escalonamento = (Escalonamento*)malloc(sizeof(Escalonamento));
-    
-    le_salva_entrada(escalonamento);
+    Escalonamento *escalonamento = cria_escalonamento();
 
-    int num_agendas = escalonamento->total_agendas;
+    le_salva_entradas(escalonamento);
 
-    /* Percorre cada grupo de transacoes de cada agenda */
-    /*for(int agenda = 0; agenda < num_agendas; agenda++) {
-        adiciona_dependencia_transacoes(&(escalonamento->lista_escalonamento[agenda]));
+    // int num_agendas = escalonamento->total_agendas;
 
-        int tem_ciclo = verifica_existencia_ciclo(&(escalonamento->lista_escalonamento[agenda].grafo_gerado));
+    // /* Percorre cada grupo de transacoes de cada agenda */
+    // for(int agenda = 0; agenda < num_agendas; agenda++) {
+    //     adiciona_dependencia_transacoes(&(escalonamento->lista_escalonamento[agenda]));
 
-        imprime_resposta_final(escalonamento->lista_escalonamento[agenda], tem_ciclo, 0);
-    }*/
+    //     int tem_ciclo = verifica_existencia_ciclo(&(escalonamento->lista_escalonamento[agenda].grafo_gerado));
 
-    
-
-    cria_combinacoes(3, 6);
+    //     imprime_resposta_final(escalonamento->lista_escalonamento[agenda], tem_ciclo, 0);
+    // }
 
     return 0;
 }

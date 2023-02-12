@@ -5,8 +5,8 @@ SRC=./src
 
 CFLAGS = -Wall
 
-executable = main.c $(SRC)/transacao.c $(SRC)/utils.c $(SRC)/grafo.c $(SRC)/visao.c
-library = $(INC)/transacao.h $(INC)/utils.h $(INC)/grafo.h $(INC)/visao.h
+executable = main.c $(SRC)/transacao.c $(SRC)/utils.c $(SRC)/grafo.c $(SRC)/agenda.c $(SRC)/visao.c
+library = $(INC)/transacao.h $(INC)/utils.h $(INC)/grafo.h $(INC)/agenda.h $(INC)/visao.h
 
 # Define regra default
 all: escalona
