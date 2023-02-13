@@ -15,10 +15,18 @@ Agenda *cria_agenda()
 
 void adiciona_info_agenda(Transacao *t, Agenda *a)
 {
+   // printf("teste antes \n") ; 
+
+    //printf("a fim %d \n" , a->fim->identificador);
+
     if(a->inicio == NULL && a->fim == NULL){
         a->inicio = t;
+       //   printf("adicionei ponteiro inicial \n") ; 
         a->fim = t;
+       //   printf("adicionei ponteiro final \n") ; 
         a->tam++;
+        
+      //  printf("adicionei na vazia \n") ;  
         return;
     }
     else{
@@ -26,6 +34,8 @@ void adiciona_info_agenda(Transacao *t, Agenda *a)
         t->anterior = a->fim;
         a->fim = t;
         a->tam++;
+
+       // printf("adicionei na fila \n") ;  
     }
 }
 
@@ -57,13 +67,13 @@ void imprime_ids(Agenda *a){
     printf("IDs desta agenda: ");
     for(int k = 0; k < a->num_transacoes; k++){
         printf("%d ", a->lista_ids_unicos[k]);
-    }
+    }   
 }
 
 void imprime_agenda_completa(Escalonamento *e)
 {
     for(int j = 0; j < e->total_agendas; j++){
-        Transacao *auxx = e->lista_escalonamento[j]->inicio;
+        Transacao *aux = e->lista_escalonamento[j]->inicio;
         
         printf("\n\n ---- Informacoes da agenda %d --- \n", j);
         printf("Tamanho: %d\nNum transacoes: %d \n", e->lista_escalonamento[j]->tam, e->lista_escalonamento[j]->num_transacoes);
@@ -71,8 +81,8 @@ void imprime_agenda_completa(Escalonamento *e)
         printf("\nOrdem de transcoes processadas: ");
 
         for(int i = 0; i < e->lista_escalonamento[j]->tam; i++){
-            printf("%d ", auxx->identificador);
-            auxx = auxx->proximo;
+            printf("%d ", aux->identificador);
+            aux = aux->proximo;
         }
     }
     printf("\n");

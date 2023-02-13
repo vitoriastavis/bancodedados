@@ -60,46 +60,64 @@ int** cria_combinacoes(int n_trans, int n_visoes){
 
     permuta(n_trans, matriz);   
 
-    for(int i = 0; i < n_trans; i++){
+    /*for(int i = 0; i < n_trans; i++){
         for(int j = 0; j < n_visoes; j++)
             printf("%d ", matriz[i][j]);
         printf("\n");
-    }  
+    } */ 
 
     return matriz;
 }
 
-/*
-
-int cria_visao(S, visao, int **matriz, int cont_visoes, int n_trans){    
-
-    int cont_trans = 0;
-    while(cont_trans < n_trans){
-        int trans_vez = matrix[cont_trans][cont_visoes];
-
-        transacao aux;            
-      
-        int cont = 0;            
-        while(cont < S->TAMANHO){
-            aux = S->lista_transacoes[cont];
-
-            if(aux->id = trans_vez)
-                break;
-                
-            cont++;
-        }
+void imprime(Agenda *a)
+{
+    Transacao *aux = a->inicio;
         
-        // teria q mudar o timestamp da transacao mas n vou fazer por enquanto
+    printf("\n\n ---- Informacoes da visao --- \n");
+    printf("Tamanho: %d\nNum transacoes: %d \n", a->tam, a->num_transacoes);
+    imprime_ids(a);
+    printf("\nOrdem de transcoes processadas: ");
 
-        while(aux->proxima != null)
-        {
-            insere_agendamento(aux, S);   
-            aux = tran-proxima;  
-        }
-        cont_trans++;
+    for(int i = 0; i < a->tam; i++){
+        printf("%d ", aux->identificador);
+        aux = aux->proximo;
     }
 
+    printf("\n");
 }
+
+void cria_visao(Agenda *a, Agenda *visao, int **matriz, int cont_visoes, int n_trans){    
+
+    int cont_trans = 0;
+    int cont = 0;
+    int trans_vez;
+
+    while(cont_trans < n_trans){
+        trans_vez = matriz[cont_trans][cont_visoes];
+       
+        Transacao *aux = a->inicio;  
+
+        cont = 0;
+
+        while(cont < a->tam){    
+
+            if(aux->identificador == trans_vez)
+            {               
+                Transacao *teste = cria_transacao(aux->tempo_chegada, aux->identificador, aux->operacao, aux->atributo);
+                adiciona_info_agenda(teste, visao);           
+            }      
+        
+            aux = aux->proximo;               
+            cont ++;
+        }
+        
+        // teria q mudar o timestamp da transacao mas n vou fazer por enquanto       
+        cont_trans++;
+
+        free(aux);      
+    }   
+}
+/*
 
 boolean analisa_visao(S, visao){
 
@@ -238,34 +256,49 @@ boolean analisa_visao(S, visao){
     }
 }
 
+*/
 
-int equivalente_por_visao(agendamento *S){
-    //int n_trans = S->qtd_transacoes;  
+
+
+int equivalente_por_visao(Agenda *a){
+    
+    int eh_equi;
+
+    int n_trans = a->num_transacoes;
     int n_visoes = npr(n_trans);
-      
+
     int **matriz;
     
     matriz = (int **)malloc(n_trans*sizeof(int*));
     for(int i = 0; i < n_trans; i++)
-        matriz[i] = (int *)malloc(n_visoes*sizeof(int));
+        matriz[i] = (int *)malloc(n_visoes*sizeof(int));    
 
-    matriz = cria_combinacoes(S);    
+    matriz = cria_combinacoes(n_trans, n_visoes);   
 
-    eh_equi = True;
+    eh_equi = 1;
+
     int cont_visoes = 0; 
 
-    while(cont_visoes < n_visoes || eh_equi == True){
-        agendamento *visao = malloc(sizeof(S)); 
-        cria_agendamento(visao);
+    while(cont_visoes < n_visoes /* || eh_equi == 1*/){
+        Agenda *visao = cria_agenda();
 
-        cria_visao(S, visao, cont_visoes, n_trans);
+        cria_visao(a, visao, matriz, cont_visoes, n_trans);
 
-        eh_equi = analisa_visao(S, visao);
+        visao->lista_ids_unicos = a->lista_ids_unicos;
+        visao->num_transacoes = a->num_transacoes;
+       
+        imprime(visao);
+
+        //eh_equi = analisa_visao(a, visao);
         // aqui compara, retorna se he equivalente ou nao
-        // se nao for, eh_equi fica false e para o loop       
+        // se nao for, eh_equi fica false e para o loop   
+  
+        cont_visoes++; 
     }
+    
+    return eh_equi;
+}
 
-*/
 
     
 

@@ -60,6 +60,10 @@ void le_salva_entradas(Escalonamento *e)
         
     }
 
+    /*free(a_aux);
+    free(transacao);
+    */
+
     /*TESTE*/
     printf("Tivemos %d escalonamentos\n", e->total_agendas);
     imprime_agenda_completa(e);
@@ -93,23 +97,26 @@ void adiciona_ativas(int *ativas, int *tam, int id)
     *tam += 1;
 }
 
-// // void imprime_resposta_final(Agenda a, int tem_ciclo, int equivalente)
-// // {
-// //     /* Imprime identificado do escalonamento */
-// //     printf("%d ", a.id_esc + 1);
+/*
+void imprime_resposta_final(Agenda *a, int id_agenda, int serializavel, int equivalente)
+{
+    // Imprime identificado do escalonamento 
+    printf("%d ", id_agenda + 1);
 
-// //     /* Imprime lista de transacoes */
-// //     for(int i = 0; i < a.grafo_gerado.n_vertice; i++) {
-// //         printf("%d", a.grafo_gerado.lista_vertices[i].id);
-// //         if(i + 1 != a.grafo_gerado.n_vertice) {
-// //             printf(",");
-// //         }
-// //     }
+    // Imprime lista de transacoes 
+    for(int i = 0; i < a->num_transacoes; i++) {
+        printf("%d", a->lista_ids_unicos[i]);
+        if(i + 1 != a->num_transacoes) {
+            printf(",");
+        }
+    }
 
-// //     /* Imprime resultado do algoritmo de garantia de serialidade */
-// //     tem_ciclo ? printf(" NS "): printf(" SS ");
+    // Imprime resultado do algoritmo de garantia de serialidade 
+    serializavel ? printf(" NS "): printf(" SS ");
 
-// //     equivalente ? printf("SV") : printf("NV");
-// //     /* Imprime resultado do algoritmo de teste de equivalencia de visao */
-// //     printf("\n");
-// // }
+    // Imprime resultado do algoritmo de teste de equivalencia de visao 
+    equivalente ? printf("SV") : printf("NV");
+
+    printf("\n");
+}
+*/

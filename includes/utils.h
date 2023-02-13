@@ -1,9 +1,10 @@
 #ifndef __UTILS_H__
 #define __UTILS_H__
 
-#include "transacao.h"
-#include "grafo.h"
+#include <stdio.h>
+#include <stdlib.h>
 #include "agenda.h"
+
 
 Escalonamento *cria_escalonamento();
 void le_salva_entradas(Escalonamento *e);

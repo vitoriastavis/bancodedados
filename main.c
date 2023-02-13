@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "includes/utils.h"
+#include "includes/visao.h"
 
 int main(int argc, char ** argv)
 {
@@ -8,16 +9,14 @@ int main(int argc, char ** argv)
 
     le_salva_entradas(escalonamento);
 
-    // int num_agendas = escalonamento->total_agendas;
+    /* Percorre cada grupo de transacoes de cada agenda */
+    for(int agenda = 0; agenda < escalonamento->total_agendas; agenda++) {
+        //serializavel = eh_serializavel(escalonamento->lista_escalonamento[agenda]);
 
-    // /* Percorre cada grupo de transacoes de cada agenda */
-    // for(int agenda = 0; agenda < num_agendas; agenda++) {
-    //     adiciona_dependencia_transacoes(&(escalonamento->lista_escalonamento[agenda]));
+        equivalente_por_visao(escalonamento->lista_escalonamento[agenda]);
 
-    //     int tem_ciclo = verifica_existencia_ciclo(&(escalonamento->lista_escalonamento[agenda].grafo_gerado));
-
-    //     imprime_resposta_final(escalonamento->lista_escalonamento[agenda], tem_ciclo, 0);
-    // }
+        //imprime_resposta_final(escalonamento->lista_escalonamento[agenda], agenda, serializavel, 0);
+    }
 
     return 0;
 }
