@@ -11,4 +11,6 @@ void cria_visao(Agenda *a, Agenda *visao, int **matriz, int cont_visoes, int n_t
 
 void imprime(Agenda *a);
 
+int adiciona_vetor(int vetor[], int pos, int valor);
+
 int equivalente_por_visao(Agenda *a);
