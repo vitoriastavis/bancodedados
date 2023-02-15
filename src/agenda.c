@@ -16,19 +16,19 @@ Agenda *cria_agenda()
 }
 
 void adiciona_info_agenda(Transacao *t, Agenda *a)
-{  
-    if(a->inicio == NULL && a->fim == NULL){
-        a->inicio = t;    
-        a->fim = t;  
-        a->tam++;        
-   
+{
+    if(a->inicio == NULL && a->fim == NULL)
+    {
+        a->inicio = t;
+        a->fim = t;
+        a->tam++;
         return;
     }
     else{
         a->fim->proximo = t;
         t->anterior = a->fim;
         a->fim = t;
-        a->tam++;     
+        a->tam++;
     }
 }
 
@@ -38,25 +38,38 @@ int *salva_ids(Agenda *agenda)
     int *existentes = malloc(tam * sizeof(int));
     Transacao *aux = agenda->inicio;
     int eh_unico;
+    int chave;
+    short int j;
 
-    for (int i = 0; i < tam; i++)
-    {
+
+    for (int i = 0; i < tam; i++){
         eh_unico = 1;
-        for(int j = 0; j < agenda->num_transacoes; j++)
-        {
-            if(existentes[j] == aux->identificador)
-            {
+        for(int j = 0; j < agenda->num_transacoes; j++){
+            if(existentes[j] == aux->identificador){
                 eh_unico = 0;
             }
         }
 
-        if(eh_unico)
-        {
+        if(eh_unico){
             existentes[agenda->num_transacoes] = aux->identificador;
             agenda->num_transacoes++;
         }
         aux = aux->proximo;
     }
+
+    /* Ordena por Insertion Sort */
+    for (int i = 0; i < agenda->num_transacoes; i++){
+        chave = existentes[i];
+        j = i - 1;
+        while (j >= 0 && existentes[j] > chave)
+        {
+            existentes[j+1] = existentes[j];
+            j = j - 1;
+        }
+        existentes[j+1] = chave;
+    }
+
+    free(aux);
     return existentes;
 }
 

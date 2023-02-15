@@ -1,7 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "../includes/utils.h"
-#include "../includes/grafo.h"
 
 #define MAX_TRANSACOES 100
 #define MAX_LENGTH 2
@@ -65,6 +62,8 @@ void le_salva_entradas(Escalonamento *e)
             a_aux = cria_agenda();
         }               
     } 
+    free(a_aux);
+    free(transacao);
 }
 
 void remove_ativas(int *ativas, int *tam, int id)

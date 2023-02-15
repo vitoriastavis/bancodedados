@@ -29,8 +29,8 @@ int npr(int n);
     @param matriz: Matriz para adicionar combinacoes nas colunas
     @return void
 */
-//void permuta(int n, int c, int **matriz, int* indices_unicos);
-void permuta(int* indices_unicos, int start, int end, int** matriz, int linha);
+void permuta(int n, int c, int **matriz, int* indices_unicos);
+//void permuta(int* indices_unicos, int start, int end, int** matriz, int linha);
 
 /*!
     @brief Aloca a matriz e chama a funcao permuta para preencher a matriz

@@ -5,7 +5,6 @@ int eh_serializavel(Agenda *a)
     Grafo *grafo = cria_grafo(a->num_transacoes);
     Transacao *tran = a->inicio;
     Transacao *prox;
-
     int serializavel;
     int pos_ini = a->lista_ids_unicos[0];
 
@@ -37,9 +36,9 @@ int eh_serializavel(Agenda *a)
 
     serializavel = verifica_existencia_ciclo(grafo);
 
-    /*free(tran);
+    free(tran);
     free(prox);
-    free(grafo);*/
+    free(grafo);
 
     return serializavel;
 } 

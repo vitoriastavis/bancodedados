@@ -3,10 +3,8 @@
 Grafo *cria_grafo(int qtd_vertices)
 {
     Grafo *g = malloc(sizeof(Grafo));
-
     g->n_vertice = qtd_vertices;
     g->n_arestas = 0;
-    
     g->matriz_adj = (int **)malloc(qtd_vertices*sizeof(int *));
     for (int i = 0; i < qtd_vertices; i++)
         g->matriz_adj[i] = (int *)malloc(qtd_vertices*qtd_vertices*sizeof(int));

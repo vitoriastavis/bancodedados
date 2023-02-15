@@ -18,7 +18,7 @@ int main(int argc, char ** argv)
     for(int agenda = 0; agenda < escalonamento->total_agendas; agenda++) {      
         //serializavel = eh_serializavel(escalonamento->lista_escalonamento[agenda]);
         equivalente = eh_equivalente(escalonamento->lista_escalonamento[agenda]);
-        //imprime_resposta_final(escalonamento->lista_escalonamento[agenda], agenda, serializavel, equivalente);
+        //imprime_resposta_final(escalonamento->lista_escalonamento[agenda], agenda, serializavel, 0);
     }
 
     return 0;
