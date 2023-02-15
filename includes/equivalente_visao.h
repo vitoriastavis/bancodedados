@@ -29,8 +29,8 @@ int npr(int n);
     @param matriz: Matriz para adicionar combinacoes nas colunas
     @return void
 */
-void permuta(int n, int c, int **matriz, int* indices_unicos);
-//void permuta(int* indices_unicos, int start, int end, int** matriz, int linha);
+//void permuta(int n, int c, int **matriz, int* indices_unicos);
+void permuta(int* indices_unicos, int start, int end, int** matriz, int *coluna);
 
 /*!
     @brief Aloca a matriz e chama a funcao permuta para preencher a matriz
@@ -98,7 +98,7 @@ int compara_vetores(int v_a[], int v_v[], int tam);
     @param escritas_v: Matriz de escritas feitas pela transacao por timestamp
     @return (1) se sao equivalentes, (0) se nao
 */
-int teste_1(int n_trans, int tam_agenda, int** leituras_a, int** escritas_a, int* cont_leitura_a, int** leituras_v, int** escritas_v);
+int teste_1(int n_trans, int tam_agenda, int** leituras_a, int** escritas_a, int* cont_leitura_a, int** leituras_v, int** escritas_v, int menor_id);
 
 /*!
     @brief Faz o segundo teste do algoritmo, se na agenda original uma transacao faz a ultima leitura de um atributo,

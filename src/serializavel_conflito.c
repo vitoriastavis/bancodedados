@@ -36,9 +36,9 @@ int eh_serializavel(Agenda *a)
 
     serializavel = verifica_existencia_ciclo(grafo);
 
-    free(tran);
+    /*free(tran);
     free(prox);
     free(grafo);
-
+*/
     return serializavel;
 } 
