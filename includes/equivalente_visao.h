@@ -29,7 +29,8 @@ int npr(int n);
     @param matriz: Matriz para adicionar combinacoes nas colunas
     @return void
 */
-void permuta(int n, int **matriz);
+//void permuta(int n, int c, int **matriz, int* indices_unicos);
+void permuta(int* indices_unicos, int start, int end, int** matriz, int linha);
 
 /*!
     @brief Aloca a matriz e chama a funcao permuta para preencher a matriz
@@ -37,14 +38,15 @@ void permuta(int n, int **matriz);
     @param n_visoes: Total de visoes, dado pela funcao npr
     @return Matriz de combinacoes
 */
-int** cria_combinacoes(int n_trans, int n_visoes);
+int** cria_combinacoes(int n_trans, int n_visoes, int* indices_unicos);
 
 /*!
     @brief Adiciona transacoes à visao de acordo com sua combinacao na matriz
     @param a: Agenda original
     @param visao: Visao a ser preenchida
     @param matriz: Matriz de combinacoes
-    @param cont_visoes: 
+    @param cont_visoes: Numero da visao atual para acessar a matriz
+    @param n_trans: Numero de transacoes
     @return Matriz de combinacoes
 */
 void cria_visao(Agenda *a, Agenda *visao, int **matriz, int cont_visoes, int n_trans);

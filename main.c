@@ -12,6 +12,8 @@ int main(int argc, char ** argv)
 
     le_salva_entradas(escalonamento);
 
+    //imprime_agenda_completa(escalonamento);
+
     /* Percorre cada grupo de transacoes de cada agenda */
     for(int agenda = 0; agenda < escalonamento->total_agendas; agenda++) {      
         //serializavel = eh_serializavel(escalonamento->lista_escalonamento[agenda]);

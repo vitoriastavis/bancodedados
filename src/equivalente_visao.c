@@ -28,21 +28,27 @@ int npr(int n)
     return fatorial(n)/fatorial(n-r);
 }
 
-void permuta(int n, int **matriz)
+/*
+void permuta(int n, int c, int **matriz, int* indices_unicos)
 {   
     int a[n];
+    for(int i = 0; i < n; i++)
+    {
+        a[i] = indices_unicos[i];
+    }
     int i, j, k, store;
 
     int linha, coluna;
     linha = 0;
     coluna = 0;
 
-    for(i=0; i<n; i++)
+    /*for(i=0; i<n; i++)
         a[i] = i+1;
+    
 
-    for(i=1; i<=n; i++)
+    for(i = 1; i <= n; i++)
     {
-        for(j=0; j<n-1; j++)
+        for(j = 0; j < n-1; j++)
         {
             store = a[j+1];
             a[j+1] = a[j];
@@ -57,9 +63,55 @@ void permuta(int n, int **matriz)
             coluna++;
         }      
     }
+}*/
+
+
+
+//function to swap the variables
+void swap(int *a, int *b)
+{
+    int temp;
+    temp = *a;
+    *a = *b;
+    *b = temp;
 }
 
-int** cria_combinacoes(int n_trans, int n_visoes)
+//function to print the array
+void printarray(int arr[], int size, int** matriz, int linha)
+{
+    int i;
+    for(i=0; i<size; i++)
+    {
+        matriz[i][linha] = arr[i];
+        linha++;
+        //printf("%d\t",arr[i]);
+    }
+    //printf("\n");
+}
+
+void permuta(int* indices_unicos, int start, int end, int** matriz, int linha)
+{
+    if(start==end)
+    {
+        printarray(indices_unicos, end+1, matriz, linha);
+        linha++;
+        return;
+    }
+
+    int i;
+
+    for(i=start;i<=end;i++)
+    {
+        //swapping numbers
+        swap((indices_unicos+i), (indices_unicos+start));
+        //fixing one first digit and calling permutation on the rest of the digits
+        permuta(indices_unicos, start+1, end, matriz, linha);
+        swap((indices_unicos+i), (indices_unicos+start));
+    }
+}
+
+
+int** cria_combinacoes(int n_trans, int n_visoes, int* indices_unicos)
 {  
     /* Inicializa matriz */
     int **matriz;
@@ -69,7 +121,8 @@ int** cria_combinacoes(int n_trans, int n_visoes)
         matriz[i] = (int *)malloc(n_visoes*sizeof(int));
 
     /* Permutacao do n de transicoes e guardar combinacoes na matriz*/
-    permuta(n_trans, matriz);     
+    //permuta(n_trans, n_visoes, matriz, indices_unicos); 
+    permuta(indices_unicos, 0, n_trans-1, matriz, 0);
 
     return matriz;
 }
@@ -78,7 +131,7 @@ void imprime(Agenda *a)
 {
     Transacao *aux = a->inicio;
         
-    printf("\n\n ---- Informacoes da visao --- \n");
+    printf("---- Informacoes da visao --- \n");
     printf("Tamanho: %d\nNum transacoes: %d \n", a->tam, a->num_transacoes);
     imprime_ids(a);
     printf("\nOrdem de transcoes processadas: ");
@@ -377,12 +430,15 @@ int analisa_visao(Agenda *a, Agenda *visao)
     Transacao *aux_v = visao->inicio;
     int cont = 0;    
 
+    if(/*aux_a == NULL || */aux_v == NULL)
+        printf("akaskd\n");
+    printf("\t\tcriei matrizes, tam agenda %d \n", tam_agenda);
     /* contabiliza operações e armazena a operação de cada transação */
     while(cont < tam_agenda)
     {     
         id_a = aux_a->identificador;
         id_v = aux_v->identificador;   
-        
+        printf("\t\t\t ida %d, id v %d \n", id_a, id_v);
         if (aux_a->operacao == 'R')
         {              
             leituras_a[id_a][cont] = (int)aux_a->atributo;
@@ -410,10 +466,10 @@ int analisa_visao(Agenda *a, Agenda *visao)
         aux_v = aux_v->proximo;
         cont++;
     } 
-
+    printf("\t\tteste 1 \n");
     /* Realiza primeiro teste */
     eh_equi1 = teste_1(n_trans, tam_agenda, leituras_a, escritas_a, cont_leitura_a, leituras_v, escritas_v);
-         
+    printf("\t\tteste 1 \n");
     /* Inicializa e preenche vetor de atributos unicos da agenda */
     int tam_vetor;
     int *atributos_unicos = malloc(MAX_TRANS*sizeof(int));
@@ -421,7 +477,7 @@ int analisa_visao(Agenda *a, Agenda *visao)
     
     /* Realiza segundo teste */
     eh_equi2 = teste_2(tam_vetor, tam_agenda, n_trans, escritas_a, escritas_v, atributos_unicos);       
-
+    printf("\t\tteste 2 \n");
     /* Testa se foi equivalente para os dois testes, se sim eh equivalente */
     int eh_equi;
     if(eh_equi1 && eh_equi2)
@@ -437,30 +493,41 @@ int eh_equivalente(Agenda *a)
     int eh_equi = 0;
     int n_trans = a->num_transacoes;
     int n_visoes = npr(n_trans);
-
+    
     /* Matriz para guardar as combinacoes possiveis para as visoes */
-    int **matriz;    
-    matriz = cria_combinacoes(n_trans, n_visoes);     
+    int **matriz;   
+    matriz = cria_combinacoes(n_trans, n_visoes, a->lista_ids_unicos); 
+   
+
+    imprime_matriz(matriz, n_trans, n_visoes);
 
     int cont_visoes = 0; 
 
     /* Cria uma visao, preenche ela, analisa
         Se a agenda original for equivalente a visao criada, sai do loop
         Se nao, continua */
+    printf("criei matriz \n");
     while(cont_visoes < n_visoes && eh_equi == 0)
     {
-        Agenda *visao = cria_agenda();
+        Agenda *visao = cria_agenda();        
 
-        cria_visao(a, visao, matriz, cont_visoes, n_trans);
+        //cria_visao(a, visao, matriz, cont_visoes, n_trans);
+        //printf("\n\tcriei visao %d \n", cont_visoes);
+     
+        //imprime(visao);
 
         visao->lista_ids_unicos = a->lista_ids_unicos;
         visao->num_transacoes = a->num_transacoes;     
              
         // compara agenda com visao
-        eh_equi = analisa_visao(a, visao);      
+        //eh_equi = analisa_visao(a, visao);   
+        //printf("\tanalisei visao %d, eh equi %d\n", cont_visoes, eh_equi);   
    
         cont_visoes++; 
+        free(visao);
     }    
+
+    free(matriz);
 
     return eh_equi;
 }
