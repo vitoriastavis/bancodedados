@@ -2,6 +2,8 @@
     "files.associations": {
         "stdlib.h": "c",
         "stdio.h": "c",
-        "utils.h": "c"
+        "utils.h": "c",
+        "equivalente_visao.h": "c",
+        "serializavel_conflito.h": "c"
     }
 }

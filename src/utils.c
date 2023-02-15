@@ -11,18 +11,20 @@ Escalonamento *cria_escalonamento()
     Escalonamento *e = malloc(sizeof(Escalonamento));
     e->total_agendas = 0;
     e->lista_escalonamento = malloc(MAX_TRANSACOES*sizeof(Agenda));
+
     return e;
 }
 
-/* Le e armazena dados lidos do input */
 void le_salva_entradas(Escalonamento *e)
 {
     int tempo, id;
     char op[MAX_LENGTH];
     char atr[MAX_LENGTH];
+
     Agenda *a_aux = cria_agenda();
     Transacao *transacao = NULL;
 
+    /* Vetor das transacoes ativas e numero de transacoes ativas */
     int ativas[MAX_TRANSACOES];
     int tam_ativas = 0;
 
@@ -34,13 +36,17 @@ void le_salva_entradas(Escalonamento *e)
         if (tempo == -1)
             break;
 
+        /* Le linha da transacao */
         fscanf(stdin, "%d", &id);
         fscanf(stdin, "%s", op);
         fscanf(stdin, "%s", atr);
+
+        /* Adiciona informacoes da transacao na estrutura de transacao */
         transacao = cria_transacao(tempo, id, op[0], atr[0]);
 
         adiciona_info_agenda(transacao, a_aux);
 
+        /* Atualiza numero de transacoes ativas, se uma transacao deu commit, esse numero eh diminuido  */
         if(op[0] == 'C') {
             remove_ativas(ativas, &tam_ativas, id);
         }
@@ -48,28 +54,18 @@ void le_salva_entradas(Escalonamento *e)
             adiciona_ativas(ativas, &tam_ativas, id);
         }
 
+        /* Se todas as transacoes desta agenda terminaram */
         if (tam_ativas == 0) {
             /* Salva agenda */      
             e->lista_escalonamento[e->total_agendas] = a_aux;
             e->lista_escalonamento[e->total_agendas]->lista_ids_unicos = salva_ids(a_aux);
             e->total_agendas++;
 
-            /* Zera variaveis auxiliares */
+            /* Zera variaveis auxiliares, iniciando nova agenda */
             a_aux = cria_agenda();
-        }       
-        
-    }
-
-    /*free(a_aux);
-    free(transacao);
-    */
-
-    /*TESTE*/
-    printf("Tivemos %d escalonamentos\n", e->total_agendas);
-    imprime_agenda_completa(e);
+        }               
+    } 
 }
-
-/* ----------------------------------- */
 
 void remove_ativas(int *ativas, int *tam, int id)
 {
@@ -97,13 +93,12 @@ void adiciona_ativas(int *ativas, int *tam, int id)
     *tam += 1;
 }
 
-/*
 void imprime_resposta_final(Agenda *a, int id_agenda, int serializavel, int equivalente)
 {
-    // Imprime identificado do escalonamento 
+    /* Imprime identificador da agenda  */
     printf("%d ", id_agenda + 1);
 
-    // Imprime lista de transacoes 
+    /* Imprime lista de transacoes desta agenda */
     for(int i = 0; i < a->num_transacoes; i++) {
         printf("%d", a->lista_ids_unicos[i]);
         if(i + 1 != a->num_transacoes) {
@@ -111,12 +106,11 @@ void imprime_resposta_final(Agenda *a, int id_agenda, int serializavel, int equi
         }
     }
 
-    // Imprime resultado do algoritmo de garantia de serialidade 
+    /* Imprime resultado do algoritmo de garantia de serialidade   */
     serializavel ? printf(" NS "): printf(" SS ");
 
-    // Imprime resultado do algoritmo de teste de equivalencia de visao 
+    /* Imprime resultado do algoritmo de teste de equivalencia de visao   */
     equivalente ? printf("SV") : printf("NV");
 
     printf("\n");
 }
-*/
