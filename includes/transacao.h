@@ -29,8 +29,18 @@ typedef struct Escalonamento
     Agenda **lista_escalonamento;
 }Escalonamento;
 
+/*!
+    @brief Inicializa estrutura de transacao
+    @param 
+    @return Transacao inicializada
+*/
 Transacao *cria_transacao(int tempo, int id, char op, char atr);
-// void adiciona_dependencia_transacoes(Agenda *agenda);
-// void imprime_transacao(Transacao *transacoes, int num_transacoes);
+
+/*!
+    @brief Imprime transacoes de uma agenda
+    @param a: Agenda a ser impressa
+    @return Void
+*/
+void imprime_transacao(Agenda *a);
 
 #endif // __TRANSACAO_H__

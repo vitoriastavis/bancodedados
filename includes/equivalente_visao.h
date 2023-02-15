@@ -29,8 +29,7 @@ int npr(int n);
     @param matriz: Matriz para adicionar combinacoes nas colunas
     @return void
 */
-//void permuta(int n, int c, int **matriz, int* indices_unicos);
-void permuta(int* indices_unicos, int start, int end, int** matriz, int *coluna);
+void permuta(int* ids_unicos, int start, int end, int** matriz, int *coluna);
 
 /*!
     @brief Aloca a matriz e chama a funcao permuta para preencher a matriz
@@ -38,7 +37,7 @@ void permuta(int* indices_unicos, int start, int end, int** matriz, int *coluna)
     @param n_visoes: Total de visoes, dado pela funcao npr
     @return Matriz de combinacoes
 */
-int** cria_combinacoes(int n_trans, int n_visoes, int* indices_unicos);
+int** cria_combinacoes(int n_trans, int n_visoes, int* ids_unicos);
 
 /*!
     @brief Adiciona transacoes à visao de acordo com sua combinacao na matriz
@@ -84,7 +83,7 @@ int indice_vetor_unico(int *vetor, int atributo, int tam_vetor);
     @param tam: tamanho do vetor
     @return (1) se sao iguais, (0) se nao
 */
-int compara_vetores(int v_a[], int v_v[], int tam);
+int compara_vetores(int v_a[], int v_v[], int tam_a, int tam_v);
 
 /*!
     @brief Faz o primeiro teste do algoritmo, se para cada leitura em Ti que teve antes uma escrita do mesmo atributo em Tj,
@@ -120,6 +119,14 @@ int teste_2(int tam_vetor, int tam_agenda, int n_trans, int** escritas_a, int** 
     @return Se a agenda como um todo eh equivalente por visao a alguma visao
 */
 int analisa_visao(Agenda *a, Agenda *visao);
+
+/*!
+    @brief Passa pelo vetor de ids unicos e retorna o menor
+    @param ids_unicos: Vetor de ids unicos da agenda
+    @param tam: Tamanho do vetor
+    @return Menor indice dentre os ids unicos
+*/
+int menor_identificador(int *ids_unicos, int tam);
 
 /*!
     @brief Cria combinacoes, visoes e testa elas

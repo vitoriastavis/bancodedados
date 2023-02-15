@@ -1,11 +1,12 @@
 #include <stdio.h>
+#include <unistd.h>
 #include <stdlib.h>
 #include "includes/utils.h"
 #include "includes/equivalente_visao.h"
 #include "includes/serializavel_conflito.h"
 
 int main(int argc, char ** argv)
-{
+{   
     Escalonamento *escalonamento = cria_escalonamento();
     int serializavel;
     int equivalente;

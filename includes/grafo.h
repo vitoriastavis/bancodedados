@@ -14,7 +14,7 @@ typedef struct Grafo
 
 /*!
     @brief Função que aloca memória para estrutura de grafos.
-    @param qtd_vertices: Quantidade de vértices que terão o grafo
+    @param qtd_vertices: Quantidade de vértices que tera o grafo
     @return Ponteiro de acesso.
 */
 Grafo *cria_grafo(int qtd_vertices);
@@ -23,14 +23,14 @@ Grafo *cria_grafo(int qtd_vertices);
     @brief Função que adiciona uma aresta entre dois vértices do grafo.
     @param ti: Vértice de origem
     @param tj: Vértice de destino
-    @return None
+    @return Void
 */
 void adiciona_aresta(Grafo *g, int ti, int tj);
 
 /*!
     @brief Função auxiliar que imprime dados do grafo.
     @param g: Ponteiro de acesso ao grafo
-    @return None
+    @return Void
 */
 void imprime_grafo(Grafo *g);
 

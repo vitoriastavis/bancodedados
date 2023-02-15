@@ -41,7 +41,6 @@ int *salva_ids(Agenda *agenda)
     int chave;
     short int j;
 
-
     for (int i = 0; i < tam; i++){
         eh_unico = 1;
         for(int j = 0; j < agenda->num_transacoes; j++){

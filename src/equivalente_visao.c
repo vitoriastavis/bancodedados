@@ -49,11 +49,11 @@ void printarray(int arr[], int size, int** matriz, int coluna)
     //printf("\n");
 }
 
-void permuta(int* indices_unicos, int start, int end, int** matriz, int *coluna)
+void permuta(int* ids_unicos, int start, int end, int** matriz, int *coluna)
 {
     if(start==end)
     {
-        printarray(indices_unicos, end+1, matriz, *coluna);
+        printarray(ids_unicos, end+1, matriz, *coluna);
         (*coluna)++;
         return;
     }
@@ -63,15 +63,15 @@ void permuta(int* indices_unicos, int start, int end, int** matriz, int *coluna)
     for(i=start;i<=end;i++)
     {
         //swapping numbers
-        swap((indices_unicos+i), (indices_unicos+start));
+        swap((ids_unicos+i), (ids_unicos+start));
         //fixing one first digit and calling permutation on the rest of the digits
-        permuta(indices_unicos, start+1, end, matriz, coluna);
-        swap((indices_unicos+i), (indices_unicos+start));
+        permuta(ids_unicos, start+1, end, matriz, coluna);
+        swap((ids_unicos+i), (ids_unicos+start));
     }
 }
 
 
-int** cria_combinacoes(int n_trans, int n_visoes, int* indices_unicos)
+int** cria_combinacoes(int n_trans, int n_visoes, int* ids_unicos)
 {  
     /* Inicializa matriz */
     int **matriz;
@@ -81,9 +81,9 @@ int** cria_combinacoes(int n_trans, int n_visoes, int* indices_unicos)
         matriz[i] = (int *)malloc(n_visoes*sizeof(int));
 
     /* Permutacao do n de transicoes e guardar combinacoes na matriz*/
-    //permuta(n_trans, n_visoes, matriz, indices_unicos); 
+    //permuta(n_trans, n_visoes, matriz, ids_unicos); 
     int coluna = 0;
-    permuta(indices_unicos, 0, n_trans-1, matriz, &coluna);
+    permuta(ids_unicos, 0, n_trans-1, matriz, &coluna);
 
     return matriz;
 }
@@ -194,10 +194,13 @@ int indice_vetor_unico(int *vetor, int atributo, int tam_vetor)
     return -1;
 }
 
-int compara_vetores(int v_a[], int v_v[], int tam)
+int compara_vetores(int v_a[], int v_v[], int tam_a, int tam_v)
 {
+    if(tam_a != tam_v)
+        return 0;
+
     /*  Anda pelo vetor comparando com o outro */
-    for(int i = 0; i < tam; i++)
+    for(int i = 0; i < tam_a; i++)
     {
         if(v_a[i] != v_v[i])
             return 0;
@@ -238,15 +241,13 @@ int teste_1(int n_trans, int tam_agenda, int** leituras_a, int** escritas_a, int
                     for(int k = 1; k < n_trans+1; k++)
                     {
                         /* Continua se escrita nao for a mesma transacao da leitura*/
-                        if(k == indice)                      
-                            break;                        
-                        else{                           
-                            for(int l = 0; l < j; l++)
+                        if(k != indice){                                                   
+                            for(int l = 0; l < j+1; l++)
                             {
                                 /* Anda pela matriz de escritas, se for igual ao atributo adiciona no vetor */
                                 if(escritas_a[k][l] == atributo)
-                                {                  
-                                    tam_vetor_a = add_vetor_unico(ordem_trans_a, tam_vetor_a, k + menor_id - 1);                                                     
+                                {     
+                                    tam_vetor_a = add_vetor_unico(ordem_trans_a, tam_vetor_a, k);                                                     
                                 }
                             } 
                         }
@@ -254,7 +255,8 @@ int teste_1(int n_trans, int tam_agenda, int** leituras_a, int** escritas_a, int
                 }
             }                 
         /* Adiciona transacao da leitura ao vetor da ordem */
-        tam_vetor_a = add_vetor_unico(ordem_trans_a, tam_vetor_a, indice);        
+        tam_vetor_a = add_vetor_unico(ordem_trans_a, tam_vetor_a, indice);      
+        
         
         /* Agora analisando a visao */  
         for(int j = 0; j < tam_agenda; j++)
@@ -263,20 +265,18 @@ int teste_1(int n_trans, int tam_agenda, int** leituras_a, int** escritas_a, int
                 if(leituras_v[indice][j] != 0)
                 {
                     /* Pega atributo lido */
-                    atributo = leituras_v[indice][j];                   
+                    atributo = leituras_v[indice][j]; 
 
                     for(int k = 1; k < n_trans+1; k++)
                     {
                         /* Continua se escrita nao for a mesma transacao da leitura*/
-                        if(k == indice)                      
-                            break;                        
-                        else{                           
+                        if(k != indice){                           
                             for(int l = 0; l < j; l++)
                             {
                                 /* Anda pela matriz de escritas, se for igual ao atributo adiciona no vetor */
                                 if(escritas_v[k][l] == atributo)
-                                {                                   
-                                    tam_vetor_v = add_vetor_unico(ordem_trans_v, tam_vetor_v, k + menor_id - 1);                                                     
+                                {       
+                                    tam_vetor_v = add_vetor_unico(ordem_trans_v, tam_vetor_v, k);                                                     
                                 }
                             } 
                         }
@@ -287,7 +287,7 @@ int teste_1(int n_trans, int tam_agenda, int** leituras_a, int** escritas_a, int
         tam_vetor_v = add_vetor_unico(ordem_trans_v, tam_vetor_v, indice);    
 
         /* Compara vetores */
-        eh_equi = compara_vetores(ordem_trans_a, ordem_trans_v, tam_vetor_a);             
+        eh_equi = compara_vetores(ordem_trans_a, ordem_trans_v, tam_vetor_a, tam_vetor_v);             
         }
 
         indice++;         
@@ -301,8 +301,8 @@ int teste_1(int n_trans, int tam_agenda, int** leituras_a, int** escritas_a, int
 
 int teste_2(int tam_vetor, int tam_agenda, int n_trans, int** escritas_a, int** escritas_v, int* atributos_unicos){
     /* Guarda transacao da ultima escrita dos atributos*/ 
-    int* vetor_ultima_a = calloc(tam_vetor, sizeof(int));   
-    int* vetor_ultima_v = calloc(tam_vetor, sizeof(int));   
+    int* ultimas_a = calloc(tam_vetor, sizeof(int));   
+    int* ultimas_v = calloc(tam_vetor, sizeof(int));   
 
     int atributo_v;
     int atributo_a;
@@ -318,18 +318,22 @@ int teste_2(int tam_vetor, int tam_agenda, int n_trans, int** escritas_a, int** 
             /* Pega atributos escritos */
             atributo_a = escritas_a[i][j];         
             atributo_v = escritas_v[i][j];  
+            int ultimo_a = 0;
+            int ultimo_v = 0;
 
             /* Se atributo foi lido e nao eh o - na original */
             if(atributo_a != 0 && atributo_a != 45)
             {
-                /* Pega posicao desse atributo no vetor de atributos unicos */
+                
+                /* Pega posicao desse atributo no vetor de atributos unicos */                
                 int posicao = indice_vetor_unico(atributos_unicos, atributo_a, tam_vetor+1);                
-
+             
                 /* Se aquela escrita aconteceu depois da outra do atributo */
-                if(j >= vetor_ultima_a[posicao])
+                if(j >= ultimo_a)
                 {
                     /* Guarda a transacao no vetor */
-                    vetor_ultima_a[posicao] = i;                     
+                    ultimas_a[posicao] = i; 
+                    ultimo_a = j;                    
                 }                    
             } 
 
@@ -340,37 +344,38 @@ int teste_2(int tam_vetor, int tam_agenda, int n_trans, int** escritas_a, int** 
                 int posicao = indice_vetor_unico(atributos_unicos, atributo_v, tam_vetor+1);                
 
                 /* Se aquela escrita aconteceu depois da outra do atributo */
-                if(j >= vetor_ultima_v[posicao])
+                if(j >= ultimo_v)
                 {
                     /* Guarda a transacao no vetor */
-                    vetor_ultima_v[posicao] = i; 
+                    ultimas_v[posicao] = i;
+                    ultimo_v = j; 
                 }                    
             }           
         }
     }
-    /* Compara vetores */
-    eh_equi2 = compara_vetores(vetor_ultima_a, vetor_ultima_v, tam_vetor);      
 
-    /*free(vetor_ultima_a);
-    free(vetor_ultima_v);*/
+    eh_equi2 = compara_vetores(ultimas_a, ultimas_v, tam_vetor, tam_vetor);      
+
+    /*free(ultimas_a);
+    free(ultimas_v);*/
 
     return eh_equi2;
 }
 
-int menor_identificador(int *indices_unicos, int tam)
+int menor_identificador(int *ids_unicos, int tam)
 {
     int index = 0;
-    int menor_id = indices_unicos[tam-1];
+    int menor_id = ids_unicos[tam-1];
     while(index < tam)
     {
-        if(indices_unicos[index] < menor_id)
+        if(ids_unicos[index] < menor_id)
         {
-            menor_id = indices_unicos[index];
+            menor_id = ids_unicos[index];
         }
         index++;
     }
 
-    return menor_id;
+    return menor_id-1;
 }
 
 int analisa_visao(Agenda *a, Agenda *visao)
@@ -381,9 +386,8 @@ int analisa_visao(Agenda *a, Agenda *visao)
    
     int eh_equi1, eh_equi2;
 
-    int menor_id = menor_identificador(a->lista_ids_unicos, n_trans);
-    //printf("menor id %d \n", menor_id);
-
+    int menor_id = menor_identificador(a->lista_ids_unicos, n_trans);   
+   
     /* cria matrizes para armazenar os atributos escritos e lidos para cada transacao
        sendo 'a' para a agenda original e 'v' para a visao  */
     int **escritas_a = calloc(n_trans+1, sizeof(int*));
@@ -447,7 +451,7 @@ int analisa_visao(Agenda *a, Agenda *visao)
         aux_a = aux_a->proximo;
         aux_v = aux_v->proximo;
         cont++;       
-    } 
+    }   
 
     /* Realiza primeiro teste */
     eh_equi1 = teste_1(n_trans, tam_agenda, leituras_a, escritas_a, cont_leitura_a, leituras_v, escritas_v, menor_id);
@@ -465,9 +469,9 @@ int analisa_visao(Agenda *a, Agenda *visao)
     if(eh_equi1 && eh_equi2)
         eh_equi = 1;
     else
-        eh_equi = 0;    
- 
-    free(cont_escrita_a);
+        eh_equi = 0;        
+
+    /*free(cont_escrita_a);
     free(cont_leitura_a);
     free(cont_escrita_v);
     free(cont_leitura_v); 
@@ -484,7 +488,7 @@ int analisa_visao(Agenda *a, Agenda *visao)
     free(escritas_v);
     free(leituras_v);
 
-    free(atributos_unicos);
+    free(atributos_unicos);*/
 
     return eh_equi;
 }
@@ -517,7 +521,7 @@ int eh_equivalente(Agenda *a)
         visao->lista_ids_unicos = a->lista_ids_unicos;
         visao->num_transacoes = a->num_transacoes;     
              
-        // compara agenda com visao
+        /* Compara agenda com visao    */
         eh_equi = analisa_visao(a, visao);   
            
         cont_visoes++; 

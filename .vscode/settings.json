@@ -4,6 +4,8 @@
         "stdio.h": "c",
         "utils.h": "c",
         "equivalente_visao.h": "c",
-        "serializavel_conflito.h": "c"
+        "serializavel_conflito.h": "c",
+        "transacao.h": "c",
+        "agenda.h": "c"
     }
 }
